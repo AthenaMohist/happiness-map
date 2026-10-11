@@ -1,0 +1,622 @@
+[
+  {
+    "id": "R0-1",
+    "name": "sqlite FTS5 trigram 可用",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": ">=3.34 且 trigram 可用",
+    "actual": "True",
+    "evidence": "stdout='ok' rc=0",
+    "notes": ""
+  },
+  {
+    "id": "R0-2",
+    "name": "close.sh 双份 md5 一致 fd22da95",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "fd22da95aef4f009da169b4437c9a1e2",
+    "actual": "fd22da95aef4f009da169b4437c9a1e2 / fd22da95aef4f009da169b4437c9a1e2",
+    "evidence": "live=fd22da95aef4 backup=fd22da95aef4",
+    "notes": ""
+  },
+  {
+    "id": "R0-3",
+    "name": "A1 前置: GAI 副本不在 devPPL git",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "无副本 + 删除提交可追溯",
+    "actual": "[]",
+    "evidence": "ls-files 命中=[]; 删除提交=9ae67d0 Memory Middleware P0-0 (M0): git rm GAI workspace copy — 消灭双份拷贝（已实测零引用、分叉 33 天），wiki 不再有第三个漂移面",
+    "notes": ""
+  },
+  {
+    "id": "R0-4",
+    "name": "真实 repo lint 基线 0",
+    "path": "路径B",
+    "result": "FAIL",
+    "expected": "rc=0",
+    "actual": "3",
+    "evidence": "rc=3 out=3-engineer: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  结论: 10 个问题（退出码 3）",
+    "notes": ""
+  },
+  {
+    "id": "R0-5",
+    "name": "真实 repo git 干净（测试前）",
+    "path": "路径B",
+    "result": "OBS",
+    "expected": "干净",
+    "actual": "M memcore/indexer.py\n M memcore/lint.py\n M memcore/sources/gai.py\n M tests/test_cli.py\n M tests/test_lint.py\n?? .coverage\n?? _check_kanban.py\n?? _check_lint_encoding.py\n?? _check_state.py\n?? _qa01_e2e",
+    "evidence": "porcelain='M memcore/indexer.py\\n M memcore/lint.py\\n M memcore/sources/gai.py\\n M tests/test_cli.py\\n M tests/test_lint.py\\n?? .coverage\\n?? _check_kanban.py\\n?? _check_lint_encoding.py\\n?? _check_state.py\\n?? _qa01_e2e.py\\n?? _qa01_probe.py\\n?? _qa01_run_tests.py\\n?? _qa01_setup.py\\n?? _qa01_syntax_check.py\\n?? scratch_qa02_check.py\\n?? tests/test_gai.py'",
+    "notes": ""
+  },
+  {
+    "id": "TC-01",
+    "name": "A1 GAI 副本已删 + 删除提交可追溯",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "9ae67d0 存在",
+    "actual": "['9ae67d0 Memory Middleware P0-0 (M0): git rm GAI workspace copy — 消灭双份拷贝（已实测零引用、分叉 33 天），wiki 不再有第三个漂移面']",
+    "evidence": "删除提交=['9ae67d0 Memory Middleware P0-0 (M0): git rm GAI workspace copy — 消灭双份拷贝（已实测零引用、分叉 33 天），wiki 不再有第三个漂移面']",
+    "notes": ""
+  },
+  {
+    "id": "TC-02",
+    "name": "A2 lint 零问题（真实 repo）",
+    "path": "路径B",
+    "result": "FAIL",
+    "expected": "rc=0 + 零问题",
+    "actual": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 6\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  [I4:ERROR] actions/QA-999.md: db 有记录但文件不存在（运行 memctl index --rebuild 重建）\n  [I4:ERROR] links:r3-architect->SCHEMA: db 与文件不一致: links 缺行（e",
+    "evidence": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 6\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  [I4:ERROR] actions/QA-999.md: db 有记录但文件不存在（运行 memctl index --rebuild 重建）\n  [I4:ERROR] links:r3-architect->SCHEMA: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-architect->r3-engineer: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-architect->r3-product: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-engineer->SCHEMA: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-engineer->r3-architect: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-engineer->r3-product: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-product->SCHEMA: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-product->r3-architect: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  [I4:ERROR] links:r3-product->r3-engineer: db 与文件不一致: links 缺行（external，运行 memctl index 刷新）\n  结论: 10 个问题（退出码 3）",
+    "notes": ""
+  },
+  {
+    "id": "TC-02a",
+    "name": "A2 lint 零问题（路径 A 干净夹具）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "rc=0 零问题",
+    "actual": "0",
+    "evidence": "index rc=0 lint rc=0 out=— 四不变式校验\n  页面数: 5\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  I4: PASS\n  结论: 四不变式全部通过：零问题",
+    "notes": ""
+  },
+  {
+    "id": "TC-03",
+    "name": "A2 lint I1 断链检出",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "rc=3 + [I1:ERROR] 断链",
+    "actual": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 4\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/ghost-page.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/decisions/r3-product.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/ghost-page.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[conce",
+    "evidence": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 4\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/ghost-page.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/decisions/r3-product.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[concepts/ghost-page.md]]\n  [I1:ERROR] concepts/broken-links.md: 断链: [[conce",
+    "notes": ""
+  },
+  {
+    "id": "TC-04",
+    "name": "A2 lint I2 孤儿页检出",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "rc=3 + [I2:ERROR] 出链不足/孤儿页",
+    "actual": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 4\n  I1: PASS\n  [I2:ERROR] concepts/orphan-page.md: 孤儿页: 无入链且不在 index.md\n  I3: PASS\n  [I4:ERROR] concepts/orphan-page.md: 文件存在但 index.md 未收录\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl index 后重试）\n  警告 1 条（不阻断）\n  结论: 2 个问题（退出码 3）",
+    "evidence": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 4\n  I1: PASS\n  [I2:ERROR] concepts/orphan-page.md: 孤儿页: 无入链且不在 index.md\n  I3: PASS\n  [I4:ERROR] concepts/orphan-page.md: 文件存在但 index.md 未收录\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl index 后重试）\n  警告 1 条（不阻断）\n  结论: 2 个问题（退出码 3）",
+    "notes": ""
+  },
+  {
+    "id": "TC-05",
+    "name": "A2 lint I3 status 镜像（双向 + L0 只读）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "双向检出 + kanban 不变",
+    "actual": "fwd=memctl lint — 四不变式校验\n  页面数: 5\n  I1: PASS\n  I2: PASS\n  [I3:ERROR] actions/t_12345678.md: status 镜像不一致: wiki=active kanban=done (source_task=t_12345678)\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl rev=memctl lint — 四不变式校验\n  页面数: 6\n  I1: PASS\n  [I2:ERROR] actions/t_12345678.md: 孤儿页: 无入链且不在 index.md\n  [I3:ERROR] actions/t_87654321.md: status 镜像不一致: wiki=done 但 kanban=running (source_task=t_87654321)\n",
+    "evidence": "fwd rc=3 msg=True; rev rc=3 msg=True; readonly=True",
+    "notes": ""
+  },
+  {
+    "id": "TC-06",
+    "name": "A2 memctl status 输出完整性",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "含 wiki/db/5type/events/lint/git",
+    "actual": "[]",
+    "evidence": "rc=0 missing=[] out=memctl status — 记忆中间层仓库状态\n  wiki: /workspace/mem-core/wiki\n  mem_meta.db: 存在\n  页面总数: 7\n    raw: 0\n    entity: 0\n    concept: 3\n    decision: 3\n    action: 1\n  events 最近 5 条:\n    2026-08-10T08:15:56Z | index_update | -\n    2026-08-10T08:12:50Z | index_rebuild | -\n  lint: 10 问题 (断链 0, 孤儿 0)\n  git: 有未提",
+    "notes": ""
+  },
+  {
+    "id": "TC-07",
+    "name": "A2 lint I4 index 与文件一致",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "双向 I4 错误",
+    "actual": "rc=3",
+    "evidence": "rc=3 out=memctl lint — 四不变式校验\n  页面数: 5\n  [I1:ERROR] index.md: 断链: [[concepts/ghost.md]]\n  I2: PASS\n  I3: PASS\n  [I4:ERROR] concepts/b.md: 文件存在但 index.md 未收录\n  [I4:ERROR] concepts/ghost.md: index.md 收录但文件不存在\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl index 后重试）\n  警告 1 条（不阻断）\n  结论: 3 个问题（退出码 3）",
+    "notes": ""
+  },
+  {
+    "id": "TC-08",
+    "name": "A3 trigram CJK 检索（真实 repo）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "两词命中 r3-* 至少其一",
+    "actual": "SCHEMA (concept, SCHEMA.md) — SCHEMA — mem-core 记忆中间层域规则（权威版）\n    ↳ …re 记忆[中间层]域规则（权威…\nr3-architect (decision, concepts/decisions/r3-architect.md) [de / SCHEMA (concept, SCHEMA.md) — SCHEMA — mem-core 记忆中间层域规则（权威版）\n    ↳ …ore [记忆中间层]域规则（权…\nr3-architect (decision, concepts/decisions/r3-architect.md) [de",
+    "evidence": "中间层 rc=0 hit=r3-*; 记忆中间层 rc=0 hit=r3-*",
+    "notes": ""
+  },
+  {
+    "id": "TC-09",
+    "name": "A3 bigram 回退表（2 字 中间）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "rc=0 有命中",
+    "actual": "rc=0",
+    "evidence": "rc=0 out=SCHEMA (concept, SCHEMA.md) — SCHEMA — mem-core 记忆中间层域规则（权威版）\n    ↳ SCHEMA — mem-core 记忆中间层域规则（权威版）\nr3-architect (decision, concepts/decisions/r3-architect.md) [devppl/memory/architecture] — R3 Archit",
+    "notes": ""
+  },
+  {
+    "id": "TC-10",
+    "name": "A3 查询边界（1字/英文/ID/无命中/--type/--json）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "各分支符合契约",
+    "actual": "1字rc=0 英文rc=0 IDrc=0",
+    "evidence": "1字=0 英文=0 ID=0 无命中=0/（无命中） json=0/True",
+    "notes": ""
+  },
+  {
+    "id": "TC-11",
+    "name": "A4 index --rebuild 幂等（before/rebuild/after）",
+    "path": "路径B",
+    "result": "FAIL",
+    "expected": "0/0/0 + pages/links 两次 rebuild 行数一致（排除 log/events）",
+    "actual": "rows=([(6,)], [(12,)])→([(6,)], [(12,)])",
+    "evidence": "lint before=3 rebuild=0 after=3 pages/links=([(6,)], [(12,)])→([(6,)], [(12,)]) term_pages=1484→1484（log.md 驱动，排除）",
+    "notes": "OBS-02 确认：index --rebuild append log.md 事件 → term_pages 增长；幂等比较排除 log/events（方案 §8.4 坑位）"
+  },
+  {
+    "id": "TC-12",
+    "name": "A4 db 派生性（删库重建 + 篡改检出）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "重建 0/0 + 篡改 lint 检出(rc=3)",
+    "actual": "重建=0/0; 篡改检出=True",
+    "evidence": "删库重建 rc=0 lint=0; 篡改后 lint rc=3 out=memctl lint — 四不变式校验\n  页面数: 5\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  [I4:ERROR] concepts/a.md: db 与文件不一致（status）: db='bogus' 文件='active'（运行 memctl index 刷新）\n  结论: 1 个问题（退出码 3）",
+    "notes": "❗ 篡改检出失败 = lint 不校验 db 与文件一致性（lint.run 的 db_path 未用于 checksum 对比）→ 缺陷 MEM-QA-01"
+  },
+  {
+    "id": "TC-13",
+    "name": "A5 memctl done 自动写 wiki 页",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "结果节+status=done+updated+log+db",
+    "actual": "rc=0",
+    "evidence": "rc=0 page_done=True result=True log=True db=[('done',)]",
+    "notes": ""
+  },
+  {
+    "id": "TC-14",
+    "name": "A5 done --check dry-run（exit 1/3/0 + 不写）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "1/3/0 + 无文件变化",
+    "actual": "1/3/0 dry=True",
+    "evidence": "不存在=1 未done=3 已done=0 dry_run不变=True",
+    "notes": ""
+  },
+  {
+    "id": "TC-15",
+    "name": "A5 close.sh S3a/S3b 替换生效（活体+镜像）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "S3a 0 + S3b ✅ done 幂等 + md5 一致 + 铁律2",
+    "actual": "s3a=0 idem=True md5=True no_gai_write=True",
+    "evidence": "S3a rc=0; S3b idem=True line=| P1 | t_12345678 | 任务 X | devPPL | 1h | ✅ done; md5双份=True; done不写GAI=True",
+    "notes": ""
+  },
+  {
+    "id": "TS-03",
+    "name": "close.sh 全闭环（S3a/S3b + drift 三方一致）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "空输出",
+    "actual": "[]",
+    "evidence": "diffs=[]",
+    "notes": ""
+  },
+  {
+    "id": "TC-16",
+    "name": "A6 memctl context --scope project 格式",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "≤800 字 + 3 子段 + 首行 header",
+    "actual": "rc=0 len=222",
+    "evidence": "rc=0 len=222 head=### wiki 段（第五源） subsections=True",
+    "notes": ""
+  },
+  {
+    "id": "TC-17",
+    "name": "A6 boot_context v2 第五源集成",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "含 wiki 段 + 无 traceback",
+    "actual": "rc=0",
+    "evidence": "rc=0 wiki段=True stderr=''",
+    "notes": ""
+  },
+  {
+    "id": "TC-18",
+    "name": "A6 静默降级（缺失/失败不阻塞）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "无 wiki 段 + 退出 0 + 无 traceback",
+    "actual": "缺失rc=0 坏dbrc=0",
+    "evidence": "缺失: rc=0 wiki段=True tb=True; 坏db: rc=0 wiki段=True",
+    "notes": ""
+  },
+  {
+    "id": "TC-19",
+    "name": "A7 备份 manifest 含 mem-core",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "manifest 含 mem-core 条目",
+    "actual": "1",
+    "evidence": "manifest 含 mem-core=True 引用次数=1",
+    "notes": ""
+  },
+  {
+    "id": "TC-20",
+    "name": "A8 首批 3 页四段非空 + ≥1 参考 + ≥2 出链",
+    "path": "路径B",
+    "result": "FAIL",
+    "expected": "3 页全过 + lint 0",
+    "actual": "[('r3-product', True, True, True, True, 3, True), ('r3-architect', True, True, True, True, 3, True), ('r3-engineer', True, True, True, True, 3, True)]",
+    "evidence": "details=[('r3-product', True, True, True, True, 3, True), ('r3-architect', True, True, True, True, 3, True), ('r3-engineer', True, True, True, True, 3, True)] lint=False",
+    "notes": ""
+  },
+  {
+    "id": "TC-21",
+    "name": "A9 pytest 全绿 + 软链断言",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "≥15 pass + bin/mem→memctl + golden 用例",
+    "actual": "rc=0 passed=85 sym=True",
+    "evidence": "pytest rc=0 passed=85 symlink=True golden_ref=True",
+    "notes": ""
+  },
+  {
+    "id": "BE-01",
+    "name": "frontmatter 脏数据容错",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "不崩溃 + I4 逐条列出 + rc=3",
+    "actual": "rc=3",
+    "evidence": "rc=3 I4=True page=True out=memctl lint — 四不变式校验\n  页面数: 4\n  I1: PASS\n  [I2:ERROR] concepts/bad-frontmatter.md: 出链不足: 0 < 2\n  I3: PASS\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl index 后重试）\n  [I4:ERROR] concepts/bad-frontmatter.md: priority 非法: P9\n  [I4:ERROR] concepts/bad",
+    "notes": ""
+  },
+  {
+    "id": "BE-02",
+    "name": "GAI 行级轻量解析（适配器输出）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "4 事件 external_id=DPL-009/010/INF-011/012 + 脏行跳过 + map_id",
+    "actual": "[('DPL-009', 'active'), ('DPL-010', 'active'), ('INF-011', 'active'), ('INF-012', 'active')]",
+    "evidence": "events=[('DPL-009', 'active', 'active', 'Webhook 替代 cron 轮询'), ('DPL-010', 'active', 'active', 'close.sh → git post-commit hook'), ('INF-011', 'active', 'active', '输出自检层'), ('INF-012', 'active', 'active', 'Extractor 分叉决策')] map_id=True",
+    "notes": "❗ 缺陷 MEM-QA-02：真实 GAI 优先级列 Px-NN（实测 P1-01~04）也匹配 ID_PATTERN [A-Z]+\\d*-\\d{2,3}，适配器取第一个命中单元格 → external_id 错取优先级列，B2/B5 断言基座错。候选 MAJOR，论证流程提交研发。"
+  },
+  {
+    "id": "BE-03",
+    "name": "wikilink 解析四级（ID/路径/名称/别名 + 负样本）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "4 级解析成功 + 全失败=I1",
+    "actual": "正=0 负=3",
+    "evidence": "正样本 rc=0（全解析→lint 0）; 负样本 rc=3 断链=True",
+    "notes": "OBS：ID 型链接 [[NONEXIST-999]] 命中 ID 模式 → 直接解析为 actions/NONEXIST-999.md（即使页面不存在），I1 不报断链；缺失页面由 V2 drift/gai-links 兜底。负样本采用路径型断链验证 I1。"
+  },
+  {
+    "id": "BE-04",
+    "name": "单副本多 profile 隔离",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "3 profile 各异 + 无重复拷贝",
+    "actual": "{'r3-product': 'game-director', 'r3-architect': 'game-architect', 'r3-engineer': 'game-engine'}",
+    "evidence": "profiles={'r3-product': 'game-director', 'r3-architect': 'game-architect', 'r3-engineer': 'game-engine'} decisions 文件数=3",
+    "notes": ""
+  },
+  {
+    "id": "BE-05",
+    "name": "location 枚举校验（合法/未注册/缺段）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "合法 0 + 未注册逐段 + 缺段格式非法",
+    "actual": "合法=0 非法=3",
+    "evidence": "合法 rc=0; 非法 rc=3 未注册=True unknownroom=True 格式非法=True out=memctl lint — 四不变式校验\n  页面数: 7\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  [I4:WARN] mem_meta.db: mem_meta.db 缺失（运行 memctl index 后重试）\n  [I4:ERROR] concepts/short.md: location 格式非法: 'devppl'（应为 wing/room/shelf）\n  [I4:ERROR] concepts/unreg.md: location.room 未注册: 'unknownroom'（注册值: ['backup', 'general', 'integra",
+    "notes": ""
+  },
+  {
+    "id": "BE-06",
+    "name": "页面 >200 行 lint 告警（C4）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "WARN 超限提示（strict 模式）",
+    "actual": "plain_warn=False strict_warn=True",
+    "evidence": "plain rc=0 warn=True; strict rc=0 warn=True",
+    "notes": "实测定级：>200 行 WARN 仅在 --strict 模式输出；默认 lint 不告警（与方案预期有出入，候选 MINOR 观测）"
+  },
+  {
+    "id": "BE-09",
+    "name": "mem_meta.db 篡改 → lint 检出",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "检出 db 与文件不一致 rc=3",
+    "actual": "rc=3",
+    "evidence": "篡改后 lint rc=3 out=memctl lint — 四不变式校验\n  页面数: 5\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  [I4:ERROR] concepts/a.md: db 与文件不一致（status）: db='bogus' 文件='active'（运行 memctl index 刷新）\n  结论: 1 个问题（退出码 3）",
+    "notes": "❗ 同 TC-12：lint 不校验 db 内容（缺陷 MEM-QA-01）"
+  },
+  {
+    "id": "BE-10",
+    "name": "🔴 红线 本体未确认不被改",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "hash 全不变 + 源码无写操作 + 无未签字替换",
+    "actual": "unchanged=True write_hits=[]",
+    "evidence": "hash 不变=True; 源码引用=0 条, 写操作=0 条; wiki 替换提案引用=3 条",
+    "notes": "实体文件: ['/root/.hermes/SOUL.md', '/workspace/devPPL/.hermes.md', '/root/.hermes/profiles/game-qa/memories', '/root/.hermes/profiles/orchestrator/memories', '/root/.hermes/profiles/game-qa/skills/apple/apple-notes/SKILL.md']; 源码引用样例: []"
+  },
+  {
+    "id": "BE-11",
+    "name": "context 800 字截断",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "≤800 字符",
+    "actual": "len=353",
+    "evidence": "rc=0 len=353",
+    "notes": ""
+  },
+  {
+    "id": "BE-12",
+    "name": "会话启动协议读取 10-20 个文件",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "10-20",
+    "actual": "14",
+    "evidence": "读取文件数=14 files=['/tmp/memqa_be12_gf04ckxx/wiki/SCHEMA.md', '/tmp/memqa_be12_gf04ckxx/wiki/concepts/page24.md', '/tmp/memqa_be12_gf04ckxx/wiki/concepts/page25.md', '/tmp/memqa_be12_gf04ckxx/wiki/concepts/page26.md', '/tmp/memqa_be12_gf04ckxx/wiki/concepts/page27.md', '/tmp/memqa_be12_gf04ckxx/wiki/concepts/page28.md']...",
+    "notes": ""
+  },
+  {
+    "id": "TS-05",
+    "name": "跨会话恢复协议（摘要质量）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "含最近活动+活跃决策+当前任务",
+    "actual": "SUMMARY_OK",
+    "evidence": "summary='SUMMARY_OK' stderr=''",
+    "notes": ""
+  },
+  {
+    "id": "BE-13",
+    "name": "sqlite 降级路径（MEM_FORCE_QUERY_FALLBACK）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "强制降级不崩溃可命中",
+    "actual": "normal=0 fb=0",
+    "evidence": "normal rc=0 fallback rc=0 fallback_out=a (concept, concepts/a.md) [devppl/memory/architecture] — 记忆中间层测试页\n    ↳ 记忆中间层测试",
+    "notes": ""
+  },
+  {
+    "id": "BE-14",
+    "name": "空 wiki / 缺 SCHEMA / 不存在路径容错",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "不崩溃 + 可读错误 + 非 0",
+    "actual": "A=0/0 B=3 C=1",
+    "evidence": "A: index rc=0 lint rc=0 crash=False; B: lint rc=3 crash=False out=memctl lint — 四不变式校验\n  页面数: 4\n  [I1:ERROR] concepts/a.md: 断链: [[SCHEMA.md]]\n  [I; C: query rc=1 crash=False err=memctl query: mem_meta.db 不存在，先运行 memctl index",
+    "notes": ""
+  },
+  {
+    "id": "BE-15",
+    "name": "归档移出活跃索引（_archive/）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "归档页不进活跃索引 + lint 0",
+    "actual": "lint=0 archived_out=True",
+    "evidence": "rebuild rc=0 lint rc=0 a在索引=False query rc=0",
+    "notes": ""
+  },
+  {
+    "id": "BE-16",
+    "name": "退出码约定全表（0/1/2/3）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "成功0/错误1/用法2/校验3",
+    "actual": "0=[0, 0, 0, 0] 1=[1, 1, 1] 2=[2, 2, 2, 2, 2, 2, 2, 2] 3=[3, 3]",
+    "evidence": "0类=[0, 0, 0, 0] 1类=[1, 1, 1] 2类=[2, 2, 2, 2, 2, 2, 2, 2] 3类=[3, 3]",
+    "notes": ""
+  },
+  {
+    "id": "BE-17",
+    "name": "memctl done fail-open（L0 失败仍写 wiki）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "rc=0 + 结果节 + stderr warning",
+    "actual": "rc=0 warn=True",
+    "evidence": "rc=0 结果节=True done=True; 无no-commit rc=0 stderr='warning: L0 kanban 只读失败（fail-open，wiki 写入已完成）'",
+    "notes": ""
+  },
+  {
+    "id": "BE-18",
+    "name": "add task 骨架 lint 状态（OBS-01 观测）",
+    "path": "路径A",
+    "result": "OBS",
+    "expected": "观测记录（非判失败）",
+    "actual": "rc=0 est_hours缺=False 出链不足=False",
+    "evidence": "add rc=0; lint rc=0 I4_est_hours=False I2=False skeleton_status=draft=True out=memctl lint — 四不变式校验\n  页面数: 6\n  I1: PASS\n  I2: PASS\n  I3: PASS\n  I4: PASS\n  结论: 四不变式全部通过：零问题",
+    "notes": "OBS-01 复现确认：add task 骨架缺 est_hours（action 必填）→ lint I4 恒红；出链 0 → I2 恒红；骨架 status=draft。候选 MAJOR，论证流程提交研发。"
+  },
+  {
+    "id": "TS-01",
+    "name": "写→存→读全链路（含原子提交）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "全链 0 + 可检索 + lint 0 + 原子提交",
+    "actual": "query_hit=True atomic=True",
+    "evidence": "add=0 rebuild=0 query=0/True lint=0 done=0 lint2=0 atomic=True gitlog=769fba1 mem(t_12345678): done 测试任务\n2938c93 mem(t_12345678): add task 测试任务\nc3542eb init",
+    "notes": ""
+  },
+  {
+    "id": "TS-02",
+    "name": "纠正闭环（落 wiki → boot_context 带出）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "纠正内容被 boot_context wiki 段带出",
+    "actual": "rc=0",
+    "evidence": "rc=0 wiki段=True 纠正内容=True out=### wiki 段（第五源）\n\n- 最近更新页（24h 内）:\n  - P (concept, 2026-08-10T08:35:32Z)\n  - 梦境报告投递方式 (concept, 2026-08-10T08:35:32Z)\n\n- 活跃任务关联页:\n  - （无关联页）\n\n- 未决决策/待办:\n  - （无）\n\n",
+    "notes": ""
+  },
+  {
+    "id": "TS-06",
+    "name": "备份恢复（clone → index --rebuild → lint 0）",
+    "path": "路径B",
+    "result": "FAIL",
+    "expected": "clone 后可重建 db + lint 0",
+    "actual": "rebuild=0 lint=3",
+    "evidence": "clone=0 rebuild=0 lint=3 manifest=True",
+    "notes": ""
+  },
+  {
+    "id": "TC-22",
+    "name": "B1 blast --plan 候选清单 + 不读全 wiki（引擎层）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "候选按命中降序 + 读文件=0 + 新主题出现",
+    "actual": "cands=10 reads=0",
+    "evidence": "cands=[('page00', 5), ('page01', 5), ('page02', 5), ('page03', 5), ('page04', 5)] 排序=True 文件读取=0 未命中新主题词=['全新主', '变冷却', '增量更', '子相变', '层新提']",
+    "notes": "V2-pending：CLI update 接线后补 CLI 层断言"
+  },
+  {
+    "id": "TC-23",
+    "name": "B2 gai-links 已回填待办零断链（适配器输出）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "零断链",
+    "actual": "[]",
+    "evidence": "GAI 缺页差异=[]",
+    "notes": "V2-pending：CLI gai-links 接线后补 CLI 层断言"
+  },
+  {
+    "id": "TC-26",
+    "name": "B5 drift 三方对账（一致空 → 漂移检出 → 修复空）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "空/检出/空",
+    "actual": "0/['kanban 活跃任务缺 wiki 页: t_99999999 (漂移任务)']/0",
+    "evidence": "一致=0 漂移=['kanban 活跃任务缺 wiki 页: t_99999999 (漂移任务)'] 修复后=0",
+    "notes": "V2-pending：CLI drift 接线后补 CLI 层断言。OBS MEM-QA-03：drift 的 status 镜像分支不可达（_kanban_active 只返回非 done 任务，elif done/closed 永不触发）→ status 漂移由 lint I3 覆盖，drift 只检缺页/index 不一致。候选 MINOR。"
+  },
+  {
+    "id": "TS-07",
+    "name": "周 drift 兜底（制造漂移 → 检出 → 修复 → 空）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "检出 + 只读",
+    "actual": "['kanban 活跃任务缺 wiki 页: t_99999999 (漂移任务)']",
+    "evidence": "漂移检出=['kanban 活跃任务缺 wiki 页: t_99999999 (漂移任务)'] 只读（drift 不自动修复）=True",
+    "notes": "V2-pending：全程只读（drift 引擎不自动修复，已人工恢复）"
+  },
+  {
+    "id": "BC-05",
+    "name": "V2 demote 命令（stub exit 2）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "V2 占位 exit 2",
+    "actual": "2",
+    "evidence": "rc=2 out=",
+    "notes": "V2-pending：demote 语义（status 变更 + 说明节 + log）待 V2 交付后验证"
+  },
+  {
+    "id": "BE-07",
+    "name": "增量更新幂等（blast 两次一致）",
+    "path": "路径A",
+    "result": "PASS",
+    "expected": "一致",
+    "actual": "True",
+    "evidence": "两次候选集一致=True len=10",
+    "notes": "V2-pending：--apply 幂等待 V2 交付后验证"
+  },
+  {
+    "id": "TC-27",
+    "name": "C1 Frank 重复教次数归零（基线登记）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "基线已登记 + 周检查机制",
+    "actual": "协议就绪",
+    "evidence": "观测协议就绪：纠正事件基线已登记（梦境报告投递被纠正 3 次仍复发，PRD P1）",
+    "notes": "首观测 MVP 后 1 周 2026-08-17"
+  },
+  {
+    "id": "TC-28",
+    "name": "C2 决策追溯 ≤30s（计时模板）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "模板就绪",
+    "actual": "协议就绪",
+    "evidence": "3 决策页已预置（r3-product/architect/engineer，TC-20 验证四段齐全）；计时模板就绪",
+    "notes": "首观测 2026-08-17"
+  },
+  {
+    "id": "TC-29",
+    "name": "C3 新会话首轮主动带出正确上下文",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "集成完成 + 模板就绪",
+    "actual": "协议就绪",
+    "evidence": "boot_context 第五源已集成（TC-17 实测通过）；观测模板就绪",
+    "notes": "首观测 2026-08-17"
+  },
+  {
+    "id": "TC-30",
+    "name": "C4 同一纠正跨会话复发 = 0（跟踪表）",
+    "path": "路径B",
+    "result": "PASS",
+    "expected": "跟踪表 + 周检查",
+    "actual": "协议就绪",
+    "evidence": "跟踪表就绪；周检查机制就绪",
+    "notes": "首观测 2026-08-17"
+  },
+  {
+    "id": "TC-24",
+    "name": "B3 5 项最重要待办回填质量",
+    "path": "路径B",
+    "result": "NOT_RUN",
+    "expected": "",
+    "actual": "",
+    "evidence": "V2 P1-3 回填未交付",
+    "notes": "V2-pending：交付后执行"
+  },
+  {
+    "id": "TC-25",
+    "name": "B4 矛盾检测 + review 队列",
+    "path": "路径A",
+    "result": "NOT_RUN",
+    "expected": "",
+    "actual": "",
+    "evidence": "contradictions 检测引擎未实现（lint 仅校验 contradictions 字段断链）",
+    "notes": "V2-pending：引擎缺失，无法预执行"
+  },
+  {
+    "id": "BE-08",
+    "name": "冲突内容双版本并存（contradictions 标记）",
+    "path": "路径A",
+    "result": "NOT_RUN",
+    "expected": "",
+    "actual": "",
+    "evidence": "同 TC-25：矛盾检测引擎未实现",
+    "notes": "V2-pending"
+  },
+  {
+    "id": "TS-04",
+    "name": "增量更新场景（--plan → --apply → lint 0）",
+    "path": "路径A",
+    "result": "NOT_RUN",
+    "expected": "",
+    "actual": "",
+    "evidence": "V2 update --apply CLI 未接线",
+    "notes": "V2-pending：引擎层 blast 已预执行（TC-22）"
+  }
+]

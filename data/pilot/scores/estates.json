@@ -1,0 +1,457 @@
+{
+  "prompt_version": "v1",
+  "model": "glm-5",
+  "generated_at": "2026-10-11T19:31:29Z",
+  "estates": [
+    {
+      "estate": "bandao-chengbang",
+      "display_name": "半岛城邦",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:29:03Z",
+      "confidence": 0.85,
+      "confidence_note": "价格与学区证据充分但各期口径差异大、医疗配套未检索命中，故取高可查性下限。",
+      "dimensions": {
+        "single": {
+          "score": 52,
+          "rationale": "四期88㎡一房是rich样本中少见小面积段但总价约1200万级可及性低，地铁与商圈便利仅部分抵消门槛。",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com",
+            "https://sz.lianjia.com"
+          ]
+        },
+        "couple": {
+          "score": 58,
+          "rationale": "海景环境加地铁便利对小家庭友好，但价格门槛极高且商业主要依赖蛇口网谷/海上世界辐射。",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com",
+            "https://sz.esf.fang.com"
+          ]
+        },
+        "family": {
+          "score": 78,
+          "rationale": "南外滨海学区+小区内幼儿园小学+海景低密度环境，family适配度在蛇口rich样本中最高，仅价格可及性拉低。",
+          "source_refs": [
+            "https://www.163.com",
+            "https://m.anjuke.com",
+            "https://zhuanlan.zhihu.com"
+          ]
+        },
+        "elder": {
+          "score": 55,
+          "rationale": "海景滨海步道环境好但以150-180米超高层为主且医疗配套未命中，老年适应性存疑。",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 10,
+        "couple": 10,
+        "family": 13,
+        "elder": 10
+      }
+    },
+    {
+      "estate": "hengyu-bincheng",
+      "display_name": "恒裕滨城",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:29:49Z",
+      "confidence": 0.8,
+      "confidence_note": "价格有挂牌/政府参考价/房天下三口径差异较大，医疗配套未检索命中，其余事实多来源交叉可查。",
+      "dimensions": {
+        "single": {
+          "score": 42,
+          "rationale": "主力170-270㎡大宅、小面积段极少且83㎡也要约1950万，单身可及性极低。",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com",
+            "https://m.anjuke.com"
+          ]
+        },
+        "couple": {
+          "score": 46,
+          "rationale": "品质与地段顶级但户型偏大、总价门槛极高，二人家庭购入可及性很低。",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "https://zhuanlan.zhihu.com"
+          ]
+        },
+        "family": {
+          "score": 72,
+          "rationale": "赠送率110-120%、南北通透双入户，2号线湾厦站步行可达且近深圳湾公园/口岸，rich样本中家庭适配度最高。",
+          "source_refs": [
+            "https://baike.baidu.com",
+            "https://www.163.com",
+            "https://zhuanlan.zhihu.com"
+          ]
+        },
+        "elder": {
+          "score": 52,
+          "rationale": "超高层加管家式物业利好，但周边以商业/滨海休闲为主且医疗配套未在检索中命中。",
+          "source_refs": [
+            "https://baike.baidu.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 9,
+        "couple": 9,
+        "family": 12,
+        "elder": 10
+      }
+    },
+    {
+      "estate": "huaruncheng-runfu",
+      "display_name": "华润城润府",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:30:10Z",
+      "confidence": 0.8,
+      "confidence_note": "价格与配套多来源交叉但存在分期口径差异，医疗配套本次未检索命中，故取中高偏上",
+      "dimensions": {
+        "single": {
+          "score": 58,
+          "rationale": "万象天地与高新园站步行可达、科技园通勤极佳且两房租金约5700元可租，但89㎡千万级总价购房可及性低",
+          "source_refs": [
+            "https://sz.esf.fang.com",
+            "https://sz.lianjia.com"
+          ]
+        },
+        "couple": {
+          "score": 62,
+          "rationale": "两房户型与租赁供给充足、商业地铁配套成熟适合双职工，但购房门槛高企压制可及性",
+          "source_refs": [
+            "https://sz.esf.fang.com",
+            "https://zhuanlan.zhihu.com"
+          ]
+        },
+        "family": {
+          "score": 76,
+          "rationale": "南外科华九年一贯制学校+超大盘社区+万象天地，家庭适配度全样本第一梯队，但高容积率高密度与医疗未命中略减",
+          "source_refs": [
+            "https://sz.esf.fang.com",
+            "http://news.szhome.com",
+            "https://baike.baidu.com"
+          ]
+        },
+        "elder": {
+          "score": 45,
+          "rationale": "容积率6.5+超高层塔楼、商业区人流密集且公开讨论明言老年人不太习惯，医疗配套未命中",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com",
+            "https://baike.baidu.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 11,
+        "couple": 12,
+        "family": 14,
+        "elder": 9
+      }
+    },
+    {
+      "estate": "nanshan-yipin",
+      "display_name": "南山一品 / 中泰南山一品",
+      "rich": false,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:30:27Z",
+      "confidence": 0.6,
+      "confidence_note": "可查性中：价格/栋户/地铁均有来源，但学校维度未命中、产权与物业公司双口径冲突，降档取中。",
+      "dimensions": {
+        "single": {
+          "score": 65,
+          "rationale": "63㎡复式总价558-638万属南山低门槛上车盘，楼下即9号线南油西站，对单人吸引力高。",
+          "source_refs": [
+            "https://sz.esf.fang.com/loupan/2810834224.htm",
+            "https://baike.baidu.com/item/中泰艺术名庭/9417471"
+          ]
+        },
+        "couple": {
+          "score": 63,
+          "rationale": "小两口低总价上车+地铁口零通勤+荔秀/沃尔玛等日常商业成熟，但复式错层与塔楼密度略减分。",
+          "source_refs": [
+            "https://sz.esf.fang.com/loupan/2810834224.htm",
+            "https://baike.baidu.com/item/中泰艺术名庭/9417471"
+          ]
+        },
+        "family": {
+          "score": 52,
+          "rationale": "户型以中小面积复式为主、90㎡顶格三房适用性中等，且对口学校信息未检索确认，学位维度缺失压分。",
+          "source_refs": [
+            "https://m.fang.com/esf/sz/8_1012484865.html"
+          ]
+        },
+        "elder": {
+          "score": 45,
+          "rationale": "塔楼高层+复式错层结构对老人不友好，虽地铁口与南油成熟生活区有日常便利加分，硬伤明显。",
+          "source_refs": [
+            "https://baike.baidu.com/item/中泰艺术名庭/9417471"
+          ]
+        }
+      },
+      "base": {
+        "single": 4,
+        "couple": 4,
+        "family": 3,
+        "elder": 3
+      }
+    },
+    {
+      "estate": "nanyou-shenghuoqu",
+      "display_name": "南油生活区",
+      "rich": false,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:30:44Z",
+      "confidence": 0.7,
+      "confidence_note": "价格存在挂牌/官方参考/成交三口径倒挂且医疗配套未检索命中，栋数多口径并存，降为中高档可查度。",
+      "dimensions": {
+        "single": {
+          "score": 62,
+          "rationale": "29-30㎡一房总价116-125万为样本最低上车盘，双地铁换乘加成熟商圈可及性最高，但40年楼龄砖混老破小品质差，仅小幅过及格线。",
+          "source_refs": [
+            "https://sz.lianjia.com/xiaoqu/2411049565194",
+            "https://shenzhen.anjuke.com/community/view/872591"
+          ]
+        },
+        "couple": {
+          "score": 58,
+          "rationale": "低总价上车加双地铁与来福士海岸城商圈基本可行，但1-2室小户型与老旧居住品质构成明显硬伤，压在及格线下。",
+          "source_refs": [
+            "https://sz.lianjia.com/xiaoqu/2411049638197",
+            "https://m.fang.com"
+          ]
+        },
+        "family": {
+          "score": 45,
+          "rationale": "户型以29-75㎡小面积为主无改善面积段，南油小学仅省一级非顶级学区，家庭适配度明显不足。",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "https://www.sz.gov.cn"
+          ]
+        },
+        "elder": {
+          "score": 32,
+          "rationale": "6-8层砖混无电梯对老人极不友好，片区三甲医疗信息未命中，整体严重不适配。",
+          "source_refs": [
+            "https://zhuanlan.zhihu.com",
+            "news.szhome.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 4,
+        "couple": 4,
+        "family": 3,
+        "elder": 3
+      }
+    },
+    {
+      "estate": "shenzhenwan-yihao",
+      "display_name": "深圳湾一号",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:30:58Z",
+      "confidence": 0.85,
+      "confidence_note": "价格存在安居客/贝壳/房天下三口径差异（约19.7-28.7万/㎡）且竣工年份未检索到权威来源，降一档",
+      "dimensions": {
+        "single": {
+          "score": 30,
+          "rationale": "全部大户型、总价门槛极高（约20-29万/㎡），单身实际可及性趋近于0，公寓定位商务/投资人群",
+          "source_refs": [
+            "https://shenzhen.anjuke.com",
+            "https://m.ke.com",
+            "https://www.163.com"
+          ]
+        },
+        "couple": {
+          "score": 35,
+          "rationale": "无小户型产品，总价数千万级对双人家庭可及性极低，仅地铁上盖与商业配套加分",
+          "source_refs": [
+            "https://m.ke.com",
+            "https://www.163.com"
+          ]
+        },
+        "family": {
+          "score": 62,
+          "rationale": "科华学校/深圳湾学校与莱佛士商业均在步行范围且地铁上盖（9/11号线），但主力200㎡+总价数千万，仅超高预算家庭适用",
+          "source_refs": [
+            "https://www.163.com",
+            "https://m.sohu.com"
+          ]
+        },
+        "elder": {
+          "score": 58,
+          "rationale": "一线海景+深圳湾公园+酒店式物业（13.6元/㎡/月）环境服务强，但超高层大平层对长者实用性一般",
+          "source_refs": [
+            "https://www.163.com",
+            "https://baike.baidu.com/item"
+          ]
+        }
+      },
+      "base": {
+        "single": 12,
+        "couple": 12,
+        "family": 14,
+        "elder": 12
+      }
+    },
+    {
+      "estate": "wanxi",
+      "display_name": "太子湾·湾玺",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:02:02Z",
+      "confidence": 0.75,
+      "confidence_note": "价格存在链家~10.3万与2023新房~7.4万双口径、户数455/608不一致且医疗配套未检索命中，故降档。",
+      "dimensions": {
+        "single": {
+          "score": 40,
+          "rationale": "主力215㎡+大户型、总价约1600万起且小面积段缺失，购房可及性极低，仅地铁与环境有加分。",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "http://www.szhome.com"
+          ]
+        },
+        "couple": {
+          "score": 42,
+          "rationale": "一线海景与地铁便利适合二人居住，但户型过大、总价门槛极高，可及性极低。",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "https://sz.esf.fang.com"
+          ]
+        },
+        "family": {
+          "score": 68,
+          "rationale": "育才太子湾学校+海景环境+片区新规划适配家庭，但社区仅5栋且K11等大型配套仍在建，未达80+。",
+          "source_refs": [
+            "http://www.szhome.com",
+            "https://sz.esf.fang.com"
+          ]
+        },
+        "elder": {
+          "score": 55,
+          "rationale": "海景环境优、蛇口港站约200米步行友好，但医疗配套未命中且片区仍在建设期，老年日常便利性存疑。",
+          "source_refs": [
+            "https://sz.esf.fang.com",
+            "http://www.szhome.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 8,
+        "couple": 8,
+        "family": 12,
+        "elder": 9
+      }
+    },
+    {
+      "estate": "weilan-haian",
+      "display_name": "卓越·蔚蓝海岸",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:31:13Z",
+      "confidence": 0.75,
+      "confidence_note": "价格多平台佐证充分但建成年代双口径待核、医疗配套未检索、部分总价口径存疑，故降档至中高。",
+      "dimensions": {
+        "single": {
+          "score": 58,
+          "rationale": "二期76㎡两房总价约550万为rich样本中可及性最好，但楼龄20年+且地铁550-850米对通勤刚需略远。",
+          "source_refs": [
+            "https://www.ke.com",
+            "https://sz.zuke.com"
+          ]
+        },
+        "couple": {
+          "score": 60,
+          "rationale": "两房总价可及且滨海大社区园林会所齐全，但楼龄20年+对追求次新品质的couple吸引力一般。",
+          "source_refs": [
+            "https://www.ke.com",
+            "https://baike.baidu.com"
+          ]
+        },
+        "family": {
+          "score": 72,
+          "rationale": "北师大南山附校九年一贯制学位+四季缤纷园林+会所泳池网球场+10万㎡商业，家庭适配度第一梯队。",
+          "source_refs": [
+            "https://shenzhen.anjuke.com/community/props/sale/1181405",
+            "https://www.fang.com"
+          ]
+        },
+        "elder": {
+          "score": 55,
+          "rationale": "有别墅洋房低密度形态但主力高层塔楼，地铁距离中等且医疗配套未命中，老年便利性一般。",
+          "source_refs": [
+            "https://shenzhen.anjuke.com/community/props/sale/1181405",
+            "https://www.fang.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 9,
+        "couple": 9,
+        "family": 12,
+        "elder": 9
+      }
+    },
+    {
+      "estate": "yangguangdai-haibincheng",
+      "display_name": "阳光带海滨城",
+      "rich": true,
+      "prompt_version": "v1",
+      "model": "glm-5",
+      "scored_at": "2026-10-11T19:31:29Z",
+      "confidence": 0.6,
+      "confidence_note": "一期均价多口径大分歧、学区与医疗信息均未检索命中，可查性中等",
+      "dimensions": {
+        "single": {
+          "score": 40,
+          "rationale": "主力93㎡+两房起步且挂牌总价千万级，小面积段缺失，购房可及性极低",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "https://shenzhen.anjuke.com"
+          ]
+        },
+        "couple": {
+          "score": 45,
+          "rationale": "千万级总价与大面积段为主，双职工家庭购入门槛高，配套亮点不足以抵消可及性硬伤",
+          "source_refs": [
+            "https://sz.lianjia.com",
+            "https://shenzhen.anjuke.com"
+          ]
+        },
+        "family": {
+          "score": 70,
+          "rationale": "2-5房93-180㎡面积段完整、两梯两户低密度板楼加会所泳池等社区配套，适配度好，但学区信息未命中扣分",
+          "source_refs": [
+            "https://baike.baidu.com",
+            "https://sz.lianjia.com"
+          ]
+        },
+        "elder": {
+          "score": 55,
+          "rationale": "绿化率51%板楼社区环境友好，但医疗与老年配套信息未命中，完备性存疑",
+          "source_refs": [
+            "https://baike.baidu.com",
+            "https://sz.lianjia.com"
+          ]
+        }
+      },
+      "base": {
+        "single": 8,
+        "couple": 9,
+        "family": 12,
+        "elder": 9
+      }
+    }
+  ]
+}

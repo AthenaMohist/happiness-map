@@ -1,0 +1,181 @@
+{
+  "test_timestamp": 1783588243,
+  "phases": {
+    "Phase1-Baseline": {
+      "name": "Phase1-Baseline",
+      "passed": 9,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "TC-F5-02: embedding dimension matches",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B1: Top result score > 0.5",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B2: Threshold 0.6 filters, top is InfoManager",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B3: FTS5 keyword returns results",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B4: FTS5 top is InfoManager or Obsidian",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B5: FTS5 non-matching keyword returns empty",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B6: Semantic and FTS5 overlap >= 1",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B7: Zero vector returns ~0 scores",
+          "status": "PASS",
+          "phase": "Phase1"
+        },
+        {
+          "name": "B8: Relevant vs irrelevant gap > 0.1",
+          "status": "PASS",
+          "phase": "Phase1"
+        }
+      ]
+    },
+    "Phase1-LargeScale": {
+      "name": "Phase1-LargeScale",
+      "passed": 12,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "LS: 'How does InfoManager store art' -> InfoManager (score=0.7713)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'What is Obsidian vault?' -> Obsidian Vault (score=0.8217)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'Tell me about Hermes agent fra' -> Hermes Agent (score=0.8821)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'What is Godot game engine?' -> Godot Game (score=0.7727)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'Tell me about DeepSeek LLM pro' -> DeepSeek LLM (score=0.8447)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'How does quantitative trading ' -> Quantitative Trading (score=0.8547)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'What is Docker container?' -> Docker (score=0.8916)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'Python programming language' -> Python (score=0.8846)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'What is machine learning?' -> Machine Learning (score=0.8475)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'How does Feishu integration wo' -> Feishu Integration (score=0.7978)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'CI/CD pipeline automation' -> CI/CD Pipeline (score=0.8076)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        },
+        {
+          "name": "LS: 'React JS framework' -> React Framework (score=0.8132)",
+          "status": "PASS",
+          "phase": "Phase1-LargeScale"
+        }
+      ]
+    },
+    "Phase2-BLOCKER": {
+      "name": "Phase2-BLOCKER",
+      "passed": 2,
+      "failed": 0,
+      "tests": [
+        {
+          "name": "TC-F5-01: dimension mismatch raises error",
+          "status": "PASS",
+          "phase": "Phase2",
+          "detail": "384d vector rejected by 1536d collection: could not broadcast input array from shape (384,) into shape (1536,)"
+        },
+        {
+          "name": "TC-F5-03: cross-embedder dimension mismatch detected",
+          "status": "PASS",
+          "phase": "Phase2",
+          "detail": "could not broadcast input array from shape (1024,) into shape (384,)"
+        }
+      ]
+    },
+    "Phase3-MAJOR": {
+      "name": "Phase3-MAJOR",
+      "passed": 0,
+      "failed": 0,
+      "tests": []
+    },
+    "Phase4-Exploratory": {
+      "name": "Phase4-Exploratory",
+      "passed": 0,
+      "failed": 1,
+      "tests": [
+        {
+          "name": "TC-F2-03: multilingual embedder comparison",
+          "status": "SKIP",
+          "error": "Model not available: Model paraphrase-multilingual-MiniLM-L6-v2 is not supported in TextEmbedding. Please check the supported models using `TextEmbedding.list_supported_models()`",
+          "phase": "Phase4"
+        }
+      ]
+    }
+  },
+  "total": {
+    "passed": 52,
+    "failed": 0,
+    "errors": 0
+  },
+  "findings": [
+    {
+      "id": "F2",
+      "level": "MAJOR",
+      "summary": "Chinese embedding noise: 3/8 English queries hit Chinese memory in top-3",
+      "evidence": "FP rate = 38%"
+    },
+    {
+      "id": "F4",
+      "level": "SUGGESTION",
+      "summary": "Test coverage gap: 3 components not covered",
+      "evidence": "LLM memory extraction, Memory update/consolidation, Multi-user isolation"
+    }
+  ]
+}

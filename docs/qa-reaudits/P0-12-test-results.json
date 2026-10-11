@@ -1,0 +1,226 @@
+[
+  {
+    "category": "REGRESS",
+    "tc_id": "TC-REGRESS-01",
+    "status": "FAIL",
+    "detail": "F1 persists: .hermes.md says 433 but actual is 436",
+    "finding_level": "MINOR"
+  },
+  {
+    "category": "REGRESS",
+    "tc_id": "TC-REGRESS-02",
+    "status": "FAIL",
+    "detail": "F2 persists: gate=MAJOR<=N missing",
+    "finding_level": "MAJOR"
+  },
+  {
+    "category": "REGRESS",
+    "tc_id": "TC-REGRESS-03",
+    "status": "FAIL",
+    "detail": "F3 persists: defer.py NOT in .hermes.md. Actual scripts: ['appeal.py', 'appeal_tracker.py', 'defer.py', 'dev_reject.py', 'downgrade_notify.py', 'p11-hex-check.py', 'p11-scan-v2.py', 'p11-scan.py', 'product_rule.py']",
+    "finding_level": "MINOR"
+  },
+  {
+    "category": "REGRESS",
+    "tc_id": "TC-REGRESS-04",
+    "status": "PASS",
+    "detail": "F4: '五步判定公式' present in .hermes.md. §1.2 has structured formula: True. Note: actual formula has '前置检查->正式判定' flow",
+    "finding_level": "SUGGESTION"
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-01",
+    "status": "PASS",
+    "detail": "hermes.md loaded=True, AGENTS.md bypassed=True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-02",
+    "status": "PASS",
+    "detail": "AGENTS.md loaded as fallback: True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-03",
+    "status": "PASS",
+    "detail": "CLAUDE.md loaded as third priority: True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-04",
+    "status": "PASS",
+    "detail": ".cursorrules loaded: True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-05",
+    "status": "PASS",
+    "detail": "No context files -> empty prompt: True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-06",
+    "status": "PASS",
+    "detail": "HERMES.md uppercase loaded: True",
+    "finding_level": null
+  },
+  {
+    "category": "FUNC",
+    "tc_id": "TC-FUNC-07",
+    "status": "PASS",
+    "detail": "hermes.md found from git root to subdir: True",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-01",
+    "status": "PASS",
+    "detail": "15K file not truncated: original=15000, result=15000, truncated=False",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-02",
+    "status": "PASS",
+    "detail": "20K exact: truncated=False. Uses <= (not <): True. length=20000",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-03",
+    "status": "PASS",
+    "detail": "30K truncated: True. head=14000(70%), tail=4000(20%). total chars=18178",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-04",
+    "status": "PASS",
+    "detail": "Empty file: result=''",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-05",
+    "status": "PASS",
+    "detail": "Whitespace-only: result length=10, truncated=False",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-06",
+    "status": "PASS",
+    "detail": "Non-UTF-8: gracefully handled (empty result='')",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-07",
+    "status": "PASS",
+    "detail": "1MB+ truncated: True. result length=18180",
+    "finding_level": null
+  },
+  {
+    "category": "EDGE",
+    "tc_id": "TC-EDGE-08",
+    "status": "PASS",
+    "detail": "Custom 5000 limit: truncated=True, result_len=4676",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-01",
+    "status": "PASS",
+    "detail": "HTML hidden div: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (prompt_injection, hidd",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-02",
+    "status": "PASS",
+    "detail": "Comment ignore instructions: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (prompt_injection, html",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-03",
+    "status": "PASS",
+    "detail": "Credential curl exfil: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (exfil_curl). Content n",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-04",
+    "status": "PASS",
+    "detail": "cat .env/credentials: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (read_secrets). Content",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-05",
+    "status": "PASS",
+    "detail": "Legitimate content: blocked=False, result_preview=# Project Rules\n\nFollow these instructions:\n- Run tests before commit\n- Use Type",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-06",
+    "status": "PASS",
+    "detail": "SOUL.md code path verified: load_soul_md() calls _scan_context_content(soul_content, 'SOUL.md') at prompt_builder.py:1816",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-07",
+    "status": "PASS",
+    "detail": "Unicode NFKC normalized: fullwidth cat->cat detected: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (read_secrets). Content",
+    "finding_level": null
+  },
+  {
+    "category": "SEC",
+    "tc_id": "TC-SEC-07-INVIS",
+    "status": "PASS",
+    "detail": "Invisible unicode detected: blocked=True, result_preview=[BLOCKED: AGENTS.md contained potential prompt injection (invisible_unicode_U+20",
+    "finding_level": null
+  },
+  {
+    "category": "SUBDIR",
+    "tc_id": "TC-SUBDIR-01",
+    "status": "PASS",
+    "detail": "Subdir discovery: hints_returned=True, contains_frontend=True, preview=\n\n[Subdirectory context discovered: frontend/AGENTS.md]\n# Frontend AGENTS: use React strict mode",
+    "finding_level": null
+  },
+  {
+    "category": "SUBDIR",
+    "tc_id": "TC-SUBDIR-02",
+    "status": "PASS",
+    "detail": "Ancestor walk: hints_returned=True, contains_backend=True",
+    "finding_level": null
+  },
+  {
+    "category": "SUBDIR",
+    "tc_id": "TC-SUBDIR-03",
+    "status": "PASS",
+    "detail": "Duplicate prevention: first_call=hints, second_call=none",
+    "finding_level": null
+  },
+  {
+    "category": "SUBDIR",
+    "tc_id": "TC-SUBDIR-04",
+    "status": "PASS",
+    "detail": "No context file: hints_returned=None",
+    "finding_level": null
+  },
+  {
+    "category": "SUBDIR",
+    "tc_id": "TC-SUBDIR-05",
+    "status": "PASS",
+    "detail": "Subdir security scan: blocked=True, preview=\n\n[Subdirectory context discovered: lib/AGENTS.md]\n[BLOCKED: AGENTS.md contained potential prompt in",
+    "finding_level": null
+  }
+]

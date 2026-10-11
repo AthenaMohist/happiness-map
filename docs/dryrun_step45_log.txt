@@ -1,0 +1,196 @@
+[Backup Push] WARNING: GitHub token validation returned HTTP 401 (push may fail)
+[Backup Push] Hermes directory: /root/.hermes
+[Backup Push] Reading manifest: /workspace/manifest.yaml
+[Backup Push] Found 38 sandbox file(s) in manifest
+[Backup Push] backup_root: /root/.hermes/ (recursive=True, excludes=none)
+[Backup Push] backup_root: /workspace/devPPL/ (recursive=True, excludes=.git,.worktrees,__pycache__,*.pyc,logs,notify_state.db,notify_state.db-*,*.db-shm,*.db-wal,*.tmp)
+[Backup Push] backup_root: /workspace/dream/ (recursive=True, excludes=*.tmp)
+[Backup Push] backup_root: /workspace/dr_drill_reports/ (recursive=True, excludes=none)
+[Backup Push] backup_root: /workspace/verification/ (recursive=True, excludes=__pycache__,*.pyc)
+[Backup Push] backup_root: /workspace/memory/ (recursive=True, excludes=__pycache__,*.pyc)
+[Backup Push] Found 6 backup root(s)
+[Backup Push] Computing sha256 checksums...
+[Backup Push]   sha256: 458f78cd555f94d3...  /workspace/hermes_keepalive.sh
+[Backup Push]   sha256: 33e41309ae6d7189...  /workspace/hermes_keepalive_v2.sh
+[Backup Push]   sha256: e4c7a22b4e32f6dc...  /workspace/hermes_keepawake_proxy.py
+[Backup Push]   sha256: 714a0ca879adeb3a...  /workspace/anthropic_proxy.py
+[Backup Push]   sha256: 5d17050c7b12012a...  /workspace/claude-ds
+[Backup Push]   sha256: 7607d52f32f33dd6...  /workspace/hermes_health.sh
+[Backup Push]   sha256: 2388dab0b5541262...  /workspace/hermes_restart_dashboard.sh
+[Backup Push]   sha256: db0c8e718fd71a0f...  /workspace/hermes_backup_push.sh
+[Backup Push]   sha256: 83bfeedfeb49fbce...  /workspace/hermes_backup_restore.sh
+[Backup Push]   sha256: 865d55c6c597db40...  /workspace/hermes_daily_backup.sh
+[Backup Push]   sha256: 3c8168c5ca998340...  /workspace/hermes_dns_fix.sh
+[Backup Push]   sha256: 2b281f116bfd2cb9...  /workspace/hermes_backup_catchup.sh
+[Backup Push]   sha256: 9a11a2b2bc29f9ed...  /root/.user_hosts
+[Backup Push]   sha256: 7f260125fe6eab89...  /workspace/hermes_e2e_health_check.sh
+[Backup Push]   sha256: 0b47a0b112e1939a...  /workspace/hermes_gateway_start.sh
+[Backup Push]   sha256: eff17f82fedb2eab...  /workspace/hermes_gateway_watchdog.sh
+[Backup Push]   sha256: 1c9c25fb7a01c91f...  /usr/local/share/supervisor/hermes-dashboard.conf
+[Backup Push]   sha256: f234def7f7747d6f...  /usr/local/share/supervisor/hermes-keepalive.conf
+[Backup Push]   sha256: d8d4110db9cd4a7b...  /usr/local/share/supervisor/hermes-keepawake.conf
+[Backup Push]   sha256: c3afd4123b22708a...  /usr/local/share/supervisor/claude-proxy.conf
+[Backup Push]   sha256: 31efc2b49d0e7f75...  /usr/local/share/supervisor/hermes-cron.conf
+[Backup Push]   sha256: 8c2b544fce310e4f...  /usr/local/share/supervisor/webterm.conf
+[Backup Push]   sha256: 389f889b73bc0499...  /workspace/webterm/server.py
+[Backup Push]   sha256: 3688b807f8bf9961...  /workspace/InfoManager/AGENTS.md
+[Backup Push]   sha256: 8da4ac8d3a38acea...  /workspace/InfoManager/docs/hermes-infomanager-design.md
+[Backup Push]   sha256: 5f83854f3f814bbb...  /workspace/InfoManager/docs/tag-type-system-design.md
+[Backup Push]   sha256: 407771090922c276...  /workspace/infomanager_git_push.sh
+[Backup Push]   sha256: 7d5c2081b4dcbedf...  /workspace/hermes-sandbox-setup-prompt.md
+[Backup Push]   sha256: d2dbb5c265161137...  /workspace/SandboxHermesBackup/setup.py
+[Backup Push]   sha256: 19845752c9bf71ad...  /workspace/hermes_healthcheck_daemon.sh
+[Backup Push]   sha256: 7476764f51df56a0...  /workspace/hermes_hcd_watchdog.sh
+[Backup Push]   sha256: 9b5770d48f9d6ad2...  /workspace/hermes_backup_notify.sh
+[Backup Push]   sha256: e4d6f54e801e9966...  /workspace/hermes_rpo_monitor.sh
+[Backup Push]   sha256: 5bf66964d985f8bc...  /usr/local/share/supervisor/hermes-healthcheck.conf
+[Backup Push]   sha256: 2af1781b9c0a74f3...  /usr/local/share/supervisor/hermes-dns-fix.conf
+[Backup Push]   sha256: 75ccc0f2a4253238...  /usr/local/share/supervisor/hermes-backup-catchup.conf
+[Backup Push]   sha256: 7a6c7254cfe43a8b...  /usr/local/share/supervisor/va_daemon.conf
+[Backup Push]   sha256: 1f1fcfcad76a6795...  /root/.claude/settings.json
+[Backup Push] Pulling latest from GitHub repo...
+[Backup Push]   (test mode: skipping git fetch/reset)
+[Backup Push] Repo updated to 5bc23ec
+[Backup Push] Syncing ~/.hermes/ → repo config/...
+[Backup Push] Config synced
+[Backup Push] WARNING: profile file count mismatch: src=106366 dest=10178
+[Backup Push] Generating profiles checksum manifest...
+[Backup Push]   profiles.sha256: 10178 profile file(s) checksummed
+[Backup Push] Checking state.db files...
+[2026-08-14T10:32:58Z] game-architect full: baseline_20260814_103258.sql.gz (6.28MB, 0.8s)
+[2026-08-14T10:32:58Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:32:58Z]   sessions: +91 ~0 -0 (rows=91)
+[2026-08-14T10:32:58Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:32:58Z]   messages: +3999 ~0 -0 (rows=3999)
+[2026-08-14T10:32:58Z]   session_model_usage: +93 ~0 -0 (rows=93)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-architect/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-architect/incremental/game-architect/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-architect/state.db (92MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 92MB
+[Backup Push]     gzip: 92MB → 42MB (压缩率 46%)
+[Backup Push]     Split into 1 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-architect/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-architect/.gitignore
+[2026-08-14T10:33:03Z] game-director full: baseline_20260814_103302.sql.gz (6.12MB, 0.7s)
+[2026-08-14T10:33:03Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:03Z]   sessions: +88 ~0 -0 (rows=88)
+[2026-08-14T10:33:03Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:03Z]   messages: +3775 ~0 -0 (rows=3775)
+[2026-08-14T10:33:03Z]   session_model_usage: +89 ~0 -0 (rows=89)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-director/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-director/incremental/game-director/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-director/state.db (86MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 86MB
+[Backup Push]     gzip: 86MB → 39MB (压缩率 45%)
+[Backup Push]     Split into 1 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-director/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-director/.gitignore
+[2026-08-14T10:33:11Z] game-engine full: baseline_20260814_103307.sql.gz (33.82MB, 4.4s)
+[2026-08-14T10:33:11Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:11Z]   sessions: +380 ~0 -0 (rows=380)
+[2026-08-14T10:33:11Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:11Z]   messages: +29178 ~0 -0 (rows=29178)
+[2026-08-14T10:33:11Z]   session_model_usage: +380 ~0 -0 (rows=380)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-engine/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-engine/incremental/game-engine/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-engine/state.db (452MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 451MB
+[Backup Push]     gzip: 452MB → 182MB (压缩率 40%)
+[Backup Push]     Split into 4 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-engine/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-engine/.gitignore
+[2026-08-14T10:33:41Z] game-qa full: baseline_20260814_103339.sql.gz (17.11MB, 2.2s)
+[2026-08-14T10:33:41Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:41Z]   sessions: +261 ~0 -0 (rows=261)
+[2026-08-14T10:33:41Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:41Z]   messages: +16658 ~0 -0 (rows=16658)
+[2026-08-14T10:33:41Z]   session_model_usage: +261 ~0 -0 (rows=261)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-qa/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-qa/incremental/game-qa/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-qa/state.db (265MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 264MB
+[Backup Push]     gzip: 265MB → 111MB (压缩率 42%)
+[Backup Push]     Split into 3 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-qa/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/game-qa/.gitignore
+[2026-08-14T10:33:50Z] gateway-eng full: baseline_20260814_103350.sql.gz (1.30MB, 0.2s)
+[2026-08-14T10:33:50Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:50Z]   sessions: +22 ~0 -0 (rows=22)
+[2026-08-14T10:33:50Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:50Z]   messages: +1541 ~0 -0 (rows=1541)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/gateway-eng/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/gateway-eng/incremental/gateway-eng/
+[Backup Push]   state.db OK: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/gateway-eng/state.db (26MB, under limit)
+[2026-08-14T10:33:51Z] infomanager full: baseline_20260814_103350.sql.gz (3.58MB, 0.5s)
+[2026-08-14T10:33:51Z]   delivery_obligations: +86 ~0 -0 (rows=86)
+[2026-08-14T10:33:51Z]   gateway_routing: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:51Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:51Z]   sessions: +65 ~0 -0 (rows=65)
+[2026-08-14T10:33:51Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:51Z]   messages: +4929 ~0 -0 (rows=4929)
+[2026-08-14T10:33:51Z]   session_model_usage: +69 ~0 -0 (rows=69)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/infomanager/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/infomanager/incremental/infomanager/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/infomanager/state.db (59MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 59MB
+[Backup Push]     gzip: 59MB → 25MB (压缩率 42%)
+[Backup Push]     Split into 1 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/infomanager/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/infomanager/.gitignore
+[2026-08-14T10:33:53Z] orchestrator full: baseline_20260814_103353.sql.gz (0.00MB, 0.0s)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/home/.hermes/profiles/orchestrator/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/home/.hermes/profiles/orchestrator/incremental/orchestrator/
+[Backup Push]   state.db OK: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/home/.hermes/profiles/orchestrator/state.db (0MB, under limit)
+[2026-08-14T10:33:58Z] orchestrator full: baseline_20260814_103353.sql.gz (38.11MB, 4.8s)
+[2026-08-14T10:33:58Z]   async_delegations: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:58Z]   delivery_obligations: +280 ~0 -0 (rows=280)
+[2026-08-14T10:33:58Z]   gateway_routing: +16 ~0 -0 (rows=16)
+[2026-08-14T10:33:58Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:33:58Z]   sessions: +801 ~0 -0 (rows=801)
+[2026-08-14T10:33:58Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:33:58Z]   messages: +51004 ~0 -0 (rows=51004)
+[2026-08-14T10:33:58Z]   session_model_usage: +659 ~0 -0 (rows=659)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/incremental/orchestrator/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/state.db (644MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 636MB
+[Backup Push]     gzip: 644MB → 244MB (压缩率 38%)
+[Backup Push]     Split into 5 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/orchestrator/.gitignore
+[2026-08-14T10:34:22Z] tag-system full: baseline_20260814_103422.sql.gz (0.73MB, 0.1s)
+[2026-08-14T10:34:22Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:34:22Z]   sessions: +11 ~0 -0 (rows=11)
+[2026-08-14T10:34:22Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:34:22Z]   messages: +779 ~0 -0 (rows=779)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/tag-system/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/tag-system/incremental/tag-system/
+[Backup Push]   state.db OK: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/tag-system/state.db (13MB, under limit)
+[2026-08-14T10:34:22Z] vault-writer full: baseline_20260814_103422.sql.gz (0.45MB, 0.1s)
+[2026-08-14T10:34:22Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:34:22Z]   sessions: +11 ~0 -0 (rows=11)
+[2026-08-14T10:34:22Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:34:22Z]   messages: +707 ~0 -0 (rows=707)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/vault-writer/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/vault-writer/incremental/vault-writer/
+[Backup Push]   state.db OK: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/vault-writer/state.db (9MB, under limit)
+[2026-08-14T10:34:22Z] verifier full: baseline_20260814_103422.sql.gz (5.55MB, 0.7s)
+[2026-08-14T10:34:22Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:34:22Z]   sessions: +127 ~0 -0 (rows=127)
+[2026-08-14T10:34:22Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:34:22Z]   messages: +6883 ~0 -0 (rows=6883)
+[2026-08-14T10:34:22Z]   session_model_usage: +124 ~0 -0 (rows=124)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/verifier/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/verifier/incremental/verifier/
+[Backup Push]   state.db TOO LARGE: /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/verifier/state.db (90MB) — gzip + splitting into 49MB chunks...
+[Backup Push]     After VACUUM: 89MB
+[Backup Push]     gzip: 90MB → 37MB (压缩率 41%)
+[Backup Push]     Split into 1 parts in /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/verifier/state.db.parts
+[Backup Push]     Chunk checksums written to CHECKSUMS.sha256
+[Backup Push]     Removing monolithic state.db, keeping parts only
+[Backup Push]     Added state.db to /tmp/bkp45-dryrun-XSB8l0/repo/config/profiles/verifier/.gitignore
+[2026-08-14T10:34:26Z] default full: baseline_20260814_103426.sql.gz (0.45MB, 0.1s)
+[2026-08-14T10:34:26Z]   schema_version: +1 ~0 -0 (rows=1)
+[2026-08-14T10:34:26Z]   sessions: +4 ~0 -0 (rows=4)
+[2026-08-14T10:34:26Z]   state_meta: +2 ~0 -0 (rows=2)
+[2026-08-14T10:34:26Z]   messages: +594 ~0 -0 (rows=594)
+[2026-08-14T10:34:26Z]   session_model_usage: +4 ~0 -0 (rows=4)
+[Backup Push]   incremental full: /tmp/bkp45-dryrun-XSB8l0/repo/config/state.db → /tmp/bkp45-dryrun-XSB8l0/repo/config/incremental/default/
+[Backup Push]   state.db OK: /tmp/bkp45-dryrun-XSB8l0/repo/config/state.db (9MB, under limit)
+[Backup Push] State.db splitting and .gitignore setup complete
+[Backup Push] BACKUP_TEST_STEP45=1 → early exit after Step 4.5 (test mode)
