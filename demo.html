@@ -2,179 +2,183 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>住得爽指数 — 南山 demo</title>
+<title>住得爽指数 v2 — 六边形文明地图</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei",sans-serif; }
-  body { background:#1a1c2c; color:#f4f4f4; display:flex; flex-direction:column; align-items:center; padding:12px; }
-  h1 { font-size:20px; margin-bottom:4px; color:#ffcd75; }
-  .sub { font-size:12px; color:#94b0c2; margin-bottom:8px; }
-  #wrap { position:relative; }
-  canvas { image-rendering:pixelated; border:4px solid #333c57; border-radius:8px; display:block; }
-  #controls { display:flex; gap:8px; margin:10px 0; flex-wrap:wrap; justify-content:center; }
-  button { background:#29366f; color:#f4f4f4; border:2px solid #3b5dc9; border-radius:6px; padding:6px 14px; cursor:pointer; font-size:13px; }
-  button.active { background:#f4a259; color:#1a1c2c; border-color:#ffcd75; font-weight:bold; }
-  #legend { font-size:12px; color:#94b0c2; max-width:860px; text-align:center; line-height:1.7; }
-  .lg { display:inline-block; width:10px; height:10px; margin:0 4px 0 10px; }
+  body { background:#14161f; color:#f4f4f4; display:flex; flex-direction:column; align-items:center; padding:10px; }
+  h1 { font-size:19px; color:#ffcd75; }
+  .sub { font-size:11px; color:#8a97ad; margin:2px 0 8px; }
+  #controls { display:flex; gap:6px; margin:6px 0; flex-wrap:wrap; justify-content:center; }
+  .grp { display:flex; gap:4px; background:#1f2436; border-radius:8px; padding:4px 6px; align-items:center; }
+  .grp label { font-size:11px; color:#8a97ad; }
+  button { background:#29366f; color:#f4f4f4; border:2px solid #3b5dc9; border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; }
+  button.active { background:#f4a259; color:#14161f; border-color:#ffcd75; font-weight:bold; }
+  canvas { image-rendering:pixelated; border:3px solid #333c57; border-radius:8px; display:block; }
+  #panel { width:340px; font-size:12px; background:#1f2436; border-radius:8px; padding:10px; margin-top:8px; min-height:90px; }
+  #panel h3 { color:#ffcd75; font-size:14px; margin-bottom:4px; }
+  .bar { height:12px; background:#333c57; border-radius:6px; overflow:hidden; margin:4px 0 8px; }
+  .bar>div { height:100%; border-radius:6px; }
+  .c { display:inline-block; margin-right:10px; }
 </style>
 </head>
 <body>
-<h1>🏘️ 住得爽指数 <span style="font-size:12px;color:#94b0c2">南山片区 · Phase A demo</span></h1>
-<div class="sub">像文明一样看小区：必需品缺了扣分 · 资源按稀有/战略/奇观加分 · 按人群分列</div>
+<h1>🏘️ 住得爽指数 <span style="font-size:11px;color:#8a97ad">v2 · 六边形文明地图 · 人群×资产双维度</span></h1>
+<div class="sub">必需品缺了扣 · 稀有/战略/奇观加分 · 80%小区≤60分 · 60=过得不错</div>
 <div id="controls">
-  <button data-g="all" class="active">全部</button>
-  <button data-g="single">单身租房</button>
-  <button data-g="couple">小两口</button>
-  <button data-g="family">三代同堂</button>
-  <button data-g="elder">空巢老人</button>
-  <button id="heat">🔥 热力图</button>
+  <div class="grp"><label>人群</label>
+    <button data-g="single" class="active">单身</button><button data-g="couple">小两口</button>
+    <button data-g="family">三代同堂</button><button data-g="elder">空巢老人</button>
+  </div>
+  <div class="grp"><label>年收入</label>
+    <button data-i="0" class="active">10万</button><button data-i="1">30万</button>
+    <button data-i="2">100万</button><button data-i="3">500万</button>
+  </div>
+  <div class="grp"><button id="heat">🔥 热力图</button><button id="rng">◎ 影响范围</button></div>
 </div>
-<div id="wrap"><canvas id="cv" width="880" height="560"></canvas></div>
-<div id="legend"></div>
+<canvas id="cv" width="920" height="600"></canvas>
+<div id="panel">👆 点击六边形小区查看评分明细</div>
 <script>
-// ============ 数据（Phase A 手工录入南山片区样本） ============
-const COLORS = { park:'#38b764', mall:'#a7f070', market:'#ffcd75', industry:'#f4a259',
-  metro:'#41a6f6', school:'#ff8a5c', hospital:'#e64539', food:'#ffd4e5', trap:'#9badb7', sea:'#7df4ea' };
-const TYPE_NAME = { park:'稀有·公园绿地', mall:'稀有·商场', market:'必需·菜场', industry:'战略·尾货省钱',
-  metro:'必需·地铁', school:'奇观·学区', hospital:'必需·医院', food:'稀有·宝藏食肆', trap:'陷阱·名头响口碑差', sea:'奇观·海景' };
-
-// 小区: x,y 为格坐标; 自身属性分
-const ESTATES = [
- { id:'nsyp', name:'南山一品', x:44, y:22, housing:{family:8, couple:6, single:2, elder:2}, note:'复式·虚荣+8' },
- { id:'lhgc', name:'来福士花园', x:26, y:14, housing:{family:4, couple:5, single:4, elder:3}, note:'次新+4' },
- { id:'nyxl', name:'南油生活区', x:38, y:34, housing:{family:2, couple:2, single:3, elder:4}, note:'老社区·便宜' },
- { id:'hqb',  name:'海琴湾', x:12, y:30, housing:{family:5, couple:6, single:3, elder:2}, note:'海景+面子' },
+// ============ v2 数据 ============
+const HEX=22; // 六边形半径
+const INCOME=['10万','30万','100万','500万'];
+// 收入匹配系数: [普服区×4档, 富服区×4档]
+const INC_FIT = {
+  normal:[1.0,1.2,1.0,0.8],
+  rich:  [0.3,0.6,1.0,1.2],
+};
+const GROUPS=['single','couple','family','elder'];
+// 设施: hex 坐标(axial q,r)。tier: need/rare/strat/wonder; rich=富人服务
+const POIS=[
+ {n:'南光菜市场', t:'need', kind:'market', q:44,r:24},
+ {n:'地铁南油西', t:'need', kind:'metro',  q:40,r:28},
+ {n:'南山医院',  t:'need', kind:'hosp',   q:30,r:26},
+ {n:'永新汇喷泉花园', t:'rare', kind:'park', q:47,r:20, w:{single:3,couple:5,family:8,elder:4}},
+ {n:'荔香公园',  t:'rare', kind:'park', q:33,r:22, w:{single:3,couple:5,family:7,elder:6}},
+ {n:'早茶老字号', t:'rare', kind:'food', q:38,r:32, w:{single:3,couple:5,family:7,elder:9}},
+ {n:'南油尾货工业区', t:'strat', kind:'bargain', q:37,r:36, w:{single:10,couple:12,family:16,elder:6}},
+ {n:'海岸城商圈', t:'strat', kind:'mall', q:22,r:22, w:{single:8,couple:10,family:6,elder:4}},
+ {n:'南山实验学校', t:'rare', kind:'edu', q:35,r:18, w:{single:0,couple:9,family:12,elder:0}},
+ {n:'网红小吃城', t:'trap', kind:'trap', q:24,r:18, w:{single:-5,couple:-7,family:-9,elder:-3}},
+ {n:'深圳湾海景栈道(旅游奇观·居民加成低)', t:'wonder', kind:'wonder_tour', q:14,r:34, w:{single:4,couple:5,family:5,elder:4}},
 ];
-// 设施: 类型+服务人群权重 (single, couple, family, elder)
-const POIS = [
- { name:'永新汇(喷泉花园)', type:'mall', x:47, y:19, w:{single:2, couple:5, family:7, elder:4} },
- { name:'南油工业区(尾货)', type:'industry', x:35, y:37, w:{single:12, couple:14, family:18, elder:8} },
- { name:'荔香公园', type:'park', x:30, y:22, w:{single:3, couple:6, family:9, elder:7} },
- { name:'南光路菜市场', type:'market', x:41, y:27, w:{single:4, couple:5, family:6, elder:6} },
- { name:'地铁9号线南油西', type:'metro', x:40, y:30, w:{single:16, couple:10, family:6, elder:2} },
- { name:'南山实验学校', type:'school', x:33, y:18, w:{single:0, couple:14, family:18, elder:0} },
- { name:'南山医院', type:'hospital', x:24, y:26, w:{single:2, couple:4, family:7, elder:14} },
- { name:'来福士广场', type:'mall', x:28, y:12, w:{single:5, couple:6, family:4, elder:3} },
- { name:'海岸城(奇观级)', type:'food', x:16, y:20, w:{single:10, couple:12, family:8, elder:5} },
- { name:'网红小吃城(陷阱)', type:'trap', x:18, y:16, w:{single:-6, couple:-8, family:-10, elder:-4} },
- { name:'深圳湾海边栈道', type:'sea', x:10, y:36, w:{single:8, couple:12, family:10, elder:8} },
- { name:'早茶老字号(宝)', type:'food', x:36, y:32, w:{single:4, couple:6, family:9, elder:12} },
+// 富人社区设施示例
+const RICH_POIS=[
+ {n:'湾区国际学校', t:'strat', kind:'edu', q:16,r:12, w:{single:0,couple:14,family:18,elder:0}, rich:true},
+ {n:'私立综合医院(高端)', t:'strat', kind:'hosp', q:12,r:10, w:{single:2,couple:5,family:8,elder:16}, rich:true},
+ {n:'游艇会/马术俱乐部', t:'rare', kind:'lux', q:18,r:8, w:{single:2,couple:4,family:3,elder:1}, rich:true},
 ];
-const GROUPS = ['single','couple','family','elder'];
-const GROUP_NAME = { single:'单身租房', couple:'小两口', family:'三代同堂', elder:'空巢老人' };
+const ESTATES=[
+ {n:'南山一品',   q:44,r:22, base:{single:2,couple:4,family:6,elder:2}, rich:false, note:'复式·虚荣+'},
+ {n:'来福士花园', q:27,r:14, base:{single:3,couple:4,family:4,elder:3}, rich:false, note:'次新'},
+ {n:'南油生活区', q:39,r:33, base:{single:2,couple:2,family:2,elder:3}, rich:false, note:'老社区·便宜'},
+ {n:'海琴湾',     q:15,r:30, base:{single:2,couple:4,family:4,elder:2}, rich:false, note:'近海'},
+ {n:'湾玺(顶豪)', q:15,r:10, base:{single:2,couple:4,family:5,elder:3}, rich:true, note:'富人区·服务贵'},
+];
+// tier 衰减半径(格) — 1格≈500m
+const RANGE={need:[1,2], rare:[2,4], strat:[4,7], wonder:[999]};
+function hexDist(q1,r1,q2,r2){ const dq=q1-q2, dr=r1-r2; return Math.max(Math.abs(dq),Math.abs(dr),Math.abs(-dq-dr)); }
+function hexToPix(q,r){ return [460+(q-29.5)*HEX*1.732, 300+(r-22)*HEX*1.5 + (q%2?HEX*0.75:0)]; }
 
-// 距离: 曼哈顿格距, 每 6 格 = 500m; 超出有效半径的设施不计
-function inRange(e, p){ const d = Math.abs(e.x-p.x)+Math.abs(e.y-p.y); return d <= 16 ? d : -1; }
-
-function score(estate, group){
-  let s = estate.housing[group] || 0;
-  const contrib = [];
-  for(const p of POIS){
-    const d = inRange(estate, p); if(d<0) continue;
-    let v = (p.w[group]||0);
-    if(p.type==='market' || p.type==='metro' || p.type==='hospital'){
-      // 必需品: 有不加(按距离近给一点点), 远了扣
-      v = d<=12 ? Math.max(0, v*0.3) : -(group==='elder'&&p.type==='hospital'?12:(group==='single'&&p.type==='metro'?12:6));
+// 分数计算: 人群×收入
+function score(e,g,inc){
+  let total = e.base[g]||0; const contrib=[];
+  const fitSrc = e.rich ? INC_FIT.rich : INC_FIT.normal;
+  const fit = fitSrc[inc];
+  total = Math.round(total*fit*10)/10;
+  if(Math.abs(total)>0.01) contrib.push({n:`住房本体(收入匹配×${fit})`, v:total, tier:'base'});
+  for(const p of POIS.concat(RICH_POIS)){
+    if(p.rich && !e.rich && inc<2) continue; // 富设施对低收入在普通区不显示(根本不会出现在生活圈)
+    const d = hexDist(e.q,e.r,p.q,p.r);
+    const rr = RANGE[p.t]; if(!rr){continue;}
+    if(d>rr[rr.length-1]) { if(p.t==='need') { const pen={market:-8,metro:g==='single'?-12:-4,hosp:g==='elder'?-12:-4}[p.kind]||-5; contrib.push({n:`缺:${p.n}`, v:pen, tier:'need'}); total+=pen; } continue; }
+    const zone = d<=rr[0]?1:(d<=rr[1]?0.6:0.3); // 区段衰减
+    if(p.t==='need'){
+      let v={market:0,metro:g==='single'?2:1,hosp:g==='elder'?2:1}[p.kind]||0; // 必需品在范围内几乎不加分
+      v=v*zone; if(Math.abs(v)>=0.5){contrib.push({n:p.n,v:Math.round(v*10)/10,tier:p.t}); total+=v;}
     } else {
-      v = v * (1 - d/28); // 距离衰减
-    }
-    if(Math.abs(v)>=0.5) contrib.push({name:p.name, v:Math.round(v*10)/10, type:p.type});
-  }
-  // 必需品缺失检查
-  for(const need of ['market','metro','hospital']){
-    if(!POIS.some(p=>p.type===need && inRange(estate,p)>=0)){
-      const pen = {market:-10, metro:group==='single'?-15:-6, hospital:group==='elder'?-15:-5}[need];
-      contrib.push({name:'缺'+({market:'菜场',metro:'地铁',hospital:'医院'})[need], v:pen, type:need});
-      s += pen;
+      let v=(p.w[g]||0)*zone;
+      if(p.t==='wonder') v=v*1.0; // 旅游奇观居民加成本来就低(实事求是)
+      v*= fit; // 收入匹配系数作用在资源上
+      if(Math.abs(v)>=0.5){ contrib.push({n:p.n,v:Math.round(v*10)/10,tier:p.t}); total+=v; }
     }
   }
-  contrib.sort((a,b)=>b.v-a.v);
-  return { total: Math.round(s + contrib.reduce((a,c)=>a+c.v,0)), contrib };
+  // 80/60 映射: 原始分(-30~+60) → 20~85, 使多数≤60
+  let norm = 45 + total*0.75; norm=Math.max(5,Math.min(97,norm));
+  return {raw:Math.round(total*10)/10, score:Math.round(norm), contrib};
 }
+const TIER_C={need:'#41a6f6',rare:'#a7f070',strat:'#f4a259',wonder:'#e6b3ff',trap:'#e64539',base:'#8a97ad'};
+const TIER_N={need:'必需',rare:'稀有',strat:'战略',wonder:'奇观',trap:'陷阱',base:'本体'};
 
 // ============ 渲染 ============
-const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
-let group='all', heat=false;
-const GS=16; // 格像素
-
-function drawTown(x,y,w,h,base){
-  ctx.fillStyle=base; ctx.fillRect(x*GS,y*GS,w*GS,h*GS);
-  ctx.fillStyle='rgba(0,0,0,.15)';
-  for(let i=0;i<w;i+=2)for(let j=0;j<h;j+=2) ctx.fillRect(x*GS+i*GS+GS-2,y*GS+j*GS+GS-2,2,2);
-}
-function drawIcon(x,y,color,letter){
-  ctx.fillStyle=color; ctx.fillRect(x*GS+3,y*GS+3,GS-6,GS-6);
-  ctx.fillStyle='#1a1c2c'; ctx.font='bold 9px monospace'; ctx.textAlign='center';
-  ctx.fillText(letter, x*GS+GS/2, y*GS+GS-5);
-}
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let G='single', I=0, HEAT=false, RNG=false, SEL=null;
+function hexPath(x,y,s){ ctx.beginPath(); for(let i=0;i<6;i++){ const a=Math.PI/180*(60*i-30); const px=x+s*Math.cos(a), py=y+s*Math.sin(a); i?ctx.lineTo(px,py):ctx.moveTo(px,py);} ctx.closePath(); }
 function render(){
-  ctx.fillStyle='#1a1c2c'; ctx.fillRect(0,0,cv.width,cv.height);
-  // 底图区块
-  drawTown(6,8,20,12,'#29366f'); // 科技园
-  drawTown(30,16,24,24,'#3e2731'); // 建成区
-  ctx.fillStyle='#1a6f8a'; ctx.fillRect(0,40*GS,cv.width,10*GS); // 海
-  ctx.fillStyle='#155a70'; for(let i=0;i<20;i++) ctx.fillRect(Math.random()*880|0, 42*GS+Math.random()*8*GS|0, 8,2);
-  ctx.fillStyle='#94b0c2'; ctx.font='12px sans-serif'; ctx.fillText('深圳湾 →', 20, 47*GS);
-
-  // 道路
-  ctx.fillStyle='#566c86';
-  for(let x=8;x<56;x++){ ctx.fillRect(x*GS, 26*GS, GS, 4); ctx.fillRect(x*GS, 34*GS, GS, 4); }
-  for(let y=8;y<40;y++){ ctx.fillRect(22*GS, y*GS, 4, GS); ctx.fillRect(42*GS, y*GS, 4, GS); }
-
-  // 热力图
-  if(heat && group!=='all'){
-    for(const e of ESTATES){
-      const sc = score(e, group).total;
-      const a = Math.min(0.55, Math.abs(sc)/60+0.15);
-      ctx.fillStyle = sc>=0 ? `rgba(56,183,100,${a})` : `rgba(230,69,57,${a})`;
-      const R = 6*GS;
-      const g = ctx.createRadialGradient(e.x*GS,e.y*GS,4, e.x*GS,e.y*GS,R);
-      g.addColorStop(0, ctx.fillStyle); g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(e.x*GS,e.y*GS,R,0,7); ctx.fill();
-    }
+  ctx.fillStyle='#1a2340'; ctx.fillRect(0,0,cv.width,cv.height);
+  // 海
+  ctx.fillStyle='#155a70'; ctx.fillRect(0,480,cv.width,120);
+  // 地形底噪
+  for(let q=11;q<49;q++)for(let r=6;r<39;r++){
+    const [x,y]=hexToPix(q,r); if(x>920||x<0||y>560||y<0) continue;
+    const t=(q*7+r*13)%5;
+    ctx.fillStyle=['#26314f','#2a3352','#2d3856','#283350','#2b3654'][t];
+    hexPath(x,y,HEX-1); ctx.fill();
+    ctx.strokeStyle='#1a2340'; ctx.lineWidth=1; ctx.stroke();
   }
-
-  // POIs
-  for(const p of POIS){
-    drawIcon(p.x,p.y,COLORS[p.type], {park:'园',mall:'商',market:'菜',industry:'工',metro:'铁',school:'学',hospital:'医',food:'食',trap:'⚠',sea:'海'}[p.type]);
+  // 影响范围
+  if(RNG){ for(const p of POIS.concat(RICH_POIS)){
+    const rr=RANGE[p.t]; if(rr[0]>100) continue;
+    const [px,py]=hexToPix(p.q,p.r);
+    ctx.fillStyle=(TIER_C[p.t]+'33'); hexPath(px,py,HEX*(rr[1]+0.9)); ctx.fill();
+    ctx.fillStyle=(TIER_C[p.t]+'55'); hexPath(px,py,HEX*(rr[0]+0.9)); ctx.fill();
+  }}
+  // 热力图
+  if(HEAT){ for(const e of ESTATES){ const sc=score(e,G,I).score;
+    const [x,y]=hexToPix(e.q,e.r);
+    const col = sc>=75?'#38b764': sc>=60?'#a7f070': sc>=45?'#ffcd75': sc>=30?'#f4a259':'#e64539';
+    ctx.fillStyle=col+'66'; hexPath(x,y,HEX*4); ctx.fill(); } }
+  // POI
+  for(const p of POIS.concat(RICH_POIS)){ const [x,y]=hexToPix(p.q,p.r);
+    ctx.fillStyle=TIER_C[p.t==='trap'?'trap':p.t]; hexPath(x,y,HEX-6); ctx.fill();
+    ctx.fillStyle='#14161f'; ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
+    const ch={market:'菜',metro:'铁',hosp:'医',park:'园',food:'食',bargain:'工',mall:'商',edu:'学',trap:'⚠',wonder_tour:'奇',lux:'奢'}[p.kind];
+    ctx.fillText(ch,x,y+3);
+    if(p.t==='wonder'){ ctx.strokeStyle='#e6b3ff'; ctx.lineWidth=2; hexPath(x,y,HEX-2); ctx.stroke(); }
   }
   // 小区
-  for(const e of ESTATES){
-    const sc = group==='all'? null : score(e,group);
-    ctx.fillStyle = group==='all' ? '#f4f4f4' : (sc.total>=0?'#ffcd75':'#e64539');
-    ctx.fillRect(e.x*GS-6, e.y*GS-6, GS+12, GS+12);
-    ctx.fillStyle='#1a1c2c'; ctx.fillRect(e.x*GS-4, e.y*GS-4, GS+8, GS+8);
-    ctx.fillStyle='#f4f4f4'; ctx.font='bold 13px sans-serif';
-    ctx.fillText(e.name + (group==='all'?'':` ${sc.total>0?'+':''}${sc.total}`), e.x*GS-24, e.y*GS-10);
+  for(const e of ESTATES){ const [x,y]=hexToPix(e.q,e.r);
+    const s=score(e,G,I);
+    ctx.fillStyle=SEL===e?'#ffcd75':'#f4f4f4'; hexPath(x,y,HEX-2); ctx.fill();
+    ctx.fillStyle=SEL===e?'#14161f':'#29366f'; hexPath(x,y,HEX-6); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='bold 9px sans-serif';
+    ctx.fillText(s.score, x, y+3);
+    ctx.fillStyle= e.rich?'#e6b3ff':'#f4f4f4'; ctx.font='11px sans-serif';
+    ctx.fillText(e.n, x-26, y-HEX-4);
+    if(e.rich){ ctx.font='8px sans-serif'; ctx.fillStyle='#e6b3ff88'; ctx.fillText('rich', x+18, y-HEX-4); }
   }
-  renderLegend();
-  // 侧栏: 当前人群 top 贡献
-  if(group!=='all'){
-    ctx.fillStyle='rgba(26,28,44,.92)'; ctx.fillRect(560,360,310,190);
-    ctx.strokeStyle='#3b5dc9'; ctx.strokeRect(560,360,310,190);
-    ctx.fillStyle='#ffcd75'; ctx.font='bold 13px sans-serif';
-    const e0 = ESTATES[0]; // 南山一品详情
-    const sc = score(e0,group);
-    ctx.fillText(`南山一品 · ${GROUP_NAME[group]} 明细`, 575, 382);
-    ctx.font='11px sans-serif';
-    sc.contrib.slice(0,7).forEach((c,i)=>{
-      ctx.fillStyle = c.v>=0?'#a7f070':'#e64539';
-      ctx.fillText(`${c.v>0?'+':''}${c.v}  ${c.name}`, 575, 402+i*18);
-    });
-    ctx.fillStyle='#ffcd75'; ctx.font='bold 14px sans-serif';
-    ctx.fillText(`合计 ${sc.total>0?'+':''}${sc.total}`, 575, 538);
-  }
+  // 可见性探针: 若你能看到右下角红块+左上角黄块, 说明 canvas 合成正常
+  ctx.fillStyle='#ff2222'; ctx.fillRect(cv.width-60, cv.height-60, 60, 60);
+  ctx.fillStyle='#ffdd00'; ctx.fillRect(0, 0, 60, 60);
 }
-function renderLegend(){
-  document.getElementById('legend').innerHTML = Object.keys(COLORS).map(k=>
-    `<span class="lg" style="background:${COLORS[k]}"></span>${TYPE_NAME[k]}`).join('');
+function showPanel(e){
+  const s=score(e,G,I); const pn=document.getElementById('panel');
+  const col=s.score>=75?'#38b764':s.score>=60?'#a7f070':s.score>=45?'#ffcd75':'#e64539';
+  let h=`<h3>${e.n} <span style="color:${col};font-size:20px">${s.score}分</span> <small style="color:#8a97ad">${GROUPS_NAME[G]} · 年入${INCOME[I]} · 原始${s.raw>0?'+':''}${s.raw}</small></h3>`;
+  h+=`<div class="bar"><div style="width:${s.score}%;background:${col}"></div></div>`;
+  h+=s.contrib.sort((a,b)=>b.v-a.v).map(c=>`<span class="c" style="color:${c.v>=0?'#a7f070':'#e64539'}">[${TIER_N[c.tier]}] ${c.n} ${c.v>0?'+':''}${c.v}</span>`).join('<br>');
+  h+=`<br><small style="color:#8a97ad">${e.note} · 60分=及格, 80分=全城传奇</small>`;
+  pn.innerHTML=h;
 }
+const GROUPS_NAME={single:'单身租房',couple:'小两口',family:'三代同堂',elder:'空巢老人'};
 // 交互
-document.querySelectorAll('#controls button[data-g]').forEach(b=>{
-  b.onclick=()=>{ document.querySelectorAll('#controls button').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); group=b.dataset.g; render(); };
-});
-document.getElementById('heat').onclick=function(){ heat=!heat; this.classList.toggle('active',heat); render(); };
+document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-g]').forEach(x=>x.classList.remove('active'));b.classList.add('active');G=b.dataset.g;render();SEL&&showPanel(SEL);});
+document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-i]').forEach(x=>x.classList.remove('active'));b.classList.add('active');I=+b.dataset.i;render();SEL&&showPanel(SEL);});
+document.getElementById('heat').onclick=function(){HEAT=!HEAT;this.classList.toggle('active',HEAT);render();};
+document.getElementById('rng').onclick=function(){RNG=!RNG;this.classList.toggle('active',RNG);render();};
+cv.onclick=ev=>{ const r=cv.getBoundingClientRect(); const mx=ev.clientX-r.left, my=ev.clientY-r.top;
+  for(const e of ESTATES){ const [x,y]=hexToPix(e.q,e.r); if(Math.hypot(mx-x,my-y)<HEX+8){ SEL=e; showPanel(e); render(); return; } } };
 render();
+
 </script>
 </body>
 </html>
