@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>住得爽指数 — 南山 demo</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Microsoft YaHei",sans-serif; }
+  body { background:#1a1c2c; color:#f4f4f4; display:flex; flex-direction:column; align-items:center; padding:12px; }
+  h1 { font-size:20px; margin-bottom:4px; color:#ffcd75; }
+  .sub { font-size:12px; color:#94b0c2; margin-bottom:8px; }
+  #wrap { position:relative; }
+  canvas { image-rendering:pixelated; border:4px solid #333c57; border-radius:8px; display:block; }
+  #controls { display:flex; gap:8px; margin:10px 0; flex-wrap:wrap; justify-content:center; }
+  button { background:#29366f; color:#f4f4f4; border:2px solid #3b5dc9; border-radius:6px; padding:6px 14px; cursor:pointer; font-size:13px; }
+  button.active { background:#f4a259; color:#1a1c2c; border-color:#ffcd75; font-weight:bold; }
+  #legend { font-size:12px; color:#94b0c2; max-width:860px; text-align:center; line-height:1.7; }
+  .lg { display:inline-block; width:10px; height:10px; margin:0 4px 0 10px; }
+</style>
+</head>
+<body>
+<h1>🏘️ 住得爽指数 <span style="font-size:12px;color:#94b0c2">南山片区 · Phase A demo</span></h1>
+<div class="sub">像文明一样看小区：必需品缺了扣分 · 资源按稀有/战略/奇观加分 · 按人群分列</div>
+<div id="controls">
+  <button data-g="all" class="active">全部</button>
+  <button data-g="single">单身租房</button>
+  <button data-g="couple">小两口</button>
+  <button data-g="family">三代同堂</button>
+  <button data-g="elder">空巢老人</button>
+  <button id="heat">🔥 热力图</button>
+</div>
+<div id="wrap"><canvas id="cv" width="880" height="560"></canvas></div>
+<div id="legend"></div>
+<script>
+// ============ 数据（Phase A 手工录入南山片区样本） ============
+const COLORS = { park:'#38b764', mall:'#a7f070', market:'#ffcd75', industry:'#f4a259',
+  metro:'#41a6f6', school:'#ff8a5c', hospital:'#e64539', food:'#ffd4e5', trap:'#9badb7', sea:'#7df4ea' };
+const TYPE_NAME = { park:'稀有·公园绿地', mall:'稀有·商场', market:'必需·菜场', industry:'战略·尾货省钱',
+  metro:'必需·地铁', school:'奇观·学区', hospital:'必需·医院', food:'稀有·宝藏食肆', trap:'陷阱·名头响口碑差', sea:'奇观·海景' };
+
+// 小区: x,y 为格坐标; 自身属性分
+const ESTATES = [
+ { id:'nsyp', name:'南山一品', x:44, y:22, housing:{family:8, couple:6, single:2, elder:2}, note:'复式·虚荣+8' },
+ { id:'lhgc', name:'来福士花园', x:26, y:14, housing:{family:4, couple:5, single:4, elder:3}, note:'次新+4' },
+ { id:'nyxl', name:'南油生活区', x:38, y:34, housing:{family:2, couple:2, single:3, elder:4}, note:'老社区·便宜' },
+ { id:'hqb',  name:'海琴湾', x:12, y:30, housing:{family:5, couple:6, single:3, elder:2}, note:'海景+面子' },
+];
+// 设施: 类型+服务人群权重 (single, couple, family, elder)
+const POIS = [
+ { name:'永新汇(喷泉花园)', type:'mall', x:47, y:19, w:{single:2, couple:5, family:7, elder:4} },
+ { name:'南油工业区(尾货)', type:'industry', x:35, y:37, w:{single:12, couple:14, family:18, elder:8} },
+ { name:'荔香公园', type:'park', x:30, y:22, w:{single:3, couple:6, family:9, elder:7} },
+ { name:'南光路菜市场', type:'market', x:41, y:27, w:{single:4, couple:5, family:6, elder:6} },
+ { name:'地铁9号线南油西', type:'metro', x:40, y:30, w:{single:16, couple:10, family:6, elder:2} },
+ { name:'南山实验学校', type:'school', x:33, y:18, w:{single:0, couple:14, family:18, elder:0} },
+ { name:'南山医院', type:'hospital', x:24, y:26, w:{single:2, couple:4, family:7, elder:14} },
+ { name:'来福士广场', type:'mall', x:28, y:12, w:{single:5, couple:6, family:4, elder:3} },
+ { name:'海岸城(奇观级)', type:'food', x:16, y:20, w:{single:10, couple:12, family:8, elder:5} },
+ { name:'网红小吃城(陷阱)', type:'trap', x:18, y:16, w:{single:-6, couple:-8, family:-10, elder:-4} },
+ { name:'深圳湾海边栈道', type:'sea', x:10, y:36, w:{single:8, couple:12, family:10, elder:8} },
+ { name:'早茶老字号(宝)', type:'food', x:36, y:32, w:{single:4, couple:6, family:9, elder:12} },
+];
+const GROUPS = ['single','couple','family','elder'];
+const GROUP_NAME = { single:'单身租房', couple:'小两口', family:'三代同堂', elder:'空巢老人' };
+
+// 距离: 曼哈顿格距, 每 6 格 = 500m; 超出有效半径的设施不计
+function inRange(e, p){ const d = Math.abs(e.x-p.x)+Math.abs(e.y-p.y); return d <= 16 ? d : -1; }
+
+function score(estate, group){
+  let s = estate.housing[group] || 0;
+  const contrib = [];
+  for(const p of POIS){
+    const d = inRange(estate, p); if(d<0) continue;
+    let v = (p.w[group]||0);
+    if(p.type==='market' || p.type==='metro' || p.type==='hospital'){
+      // 必需品: 有不加(按距离近给一点点), 远了扣
+      v = d<=12 ? Math.max(0, v*0.3) : -(group==='elder'&&p.type==='hospital'?12:(group==='single'&&p.type==='metro'?12:6));
+    } else {
+      v = v * (1 - d/28); // 距离衰减
+    }
+    if(Math.abs(v)>=0.5) contrib.push({name:p.name, v:Math.round(v*10)/10, type:p.type});
+  }
+  // 必需品缺失检查
+  for(const need of ['market','metro','hospital']){
+    if(!POIS.some(p=>p.type===need && inRange(estate,p)>=0)){
+      const pen = {market:-10, metro:group==='single'?-15:-6, hospital:group==='elder'?-15:-5}[need];
+      contrib.push({name:'缺'+({market:'菜场',metro:'地铁',hospital:'医院'})[need], v:pen, type:need});
+      s += pen;
+    }
+  }
+  contrib.sort((a,b)=>b.v-a.v);
+  return { total: Math.round(s + contrib.reduce((a,c)=>a+c.v,0)), contrib };
+}
+
+// ============ 渲染 ============
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let group='all', heat=false;
+const GS=16; // 格像素
+
+function drawTown(x,y,w,h,base){
+  ctx.fillStyle=base; ctx.fillRect(x*GS,y*GS,w*GS,h*GS);
+  ctx.fillStyle='rgba(0,0,0,.15)';
+  for(let i=0;i<w;i+=2)for(let j=0;j<h;j+=2) ctx.fillRect(x*GS+i*GS+GS-2,y*GS+j*GS+GS-2,2,2);
+}
+function drawIcon(x,y,color,letter){
+  ctx.fillStyle=color; ctx.fillRect(x*GS+3,y*GS+3,GS-6,GS-6);
+  ctx.fillStyle='#1a1c2c'; ctx.font='bold 9px monospace'; ctx.textAlign='center';
+  ctx.fillText(letter, x*GS+GS/2, y*GS+GS-5);
+}
+function render(){
+  ctx.fillStyle='#1a1c2c'; ctx.fillRect(0,0,cv.width,cv.height);
+  // 底图区块
+  drawTown(6,8,20,12,'#29366f'); // 科技园
+  drawTown(30,16,24,24,'#3e2731'); // 建成区
+  ctx.fillStyle='#1a6f8a'; ctx.fillRect(0,40*GS,cv.width,10*GS); // 海
+  ctx.fillStyle='#155a70'; for(let i=0;i<20;i++) ctx.fillRect(Math.random()*880|0, 42*GS+Math.random()*8*GS|0, 8,2);
+  ctx.fillStyle='#94b0c2'; ctx.font='12px sans-serif'; ctx.fillText('深圳湾 →', 20, 47*GS);
+
+  // 道路
+  ctx.fillStyle='#566c86';
+  for(let x=8;x<56;x++){ ctx.fillRect(x*GS, 26*GS, GS, 4); ctx.fillRect(x*GS, 34*GS, GS, 4); }
+  for(let y=8;y<40;y++){ ctx.fillRect(22*GS, y*GS, 4, GS); ctx.fillRect(42*GS, y*GS, 4, GS); }
+
+  // 热力图
+  if(heat && group!=='all'){
+    for(const e of ESTATES){
+      const sc = score(e, group).total;
+      const a = Math.min(0.55, Math.abs(sc)/60+0.15);
+      ctx.fillStyle = sc>=0 ? `rgba(56,183,100,${a})` : `rgba(230,69,57,${a})`;
+      const R = 6*GS;
+      const g = ctx.createRadialGradient(e.x*GS,e.y*GS,4, e.x*GS,e.y*GS,R);
+      g.addColorStop(0, ctx.fillStyle); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(e.x*GS,e.y*GS,R,0,7); ctx.fill();
+    }
+  }
+
+  // POIs
+  for(const p of POIS){
+    drawIcon(p.x,p.y,COLORS[p.type], {park:'园',mall:'商',market:'菜',industry:'工',metro:'铁',school:'学',hospital:'医',food:'食',trap:'⚠',sea:'海'}[p.type]);
+  }
+  // 小区
+  for(const e of ESTATES){
+    const sc = group==='all'? null : score(e,group);
+    ctx.fillStyle = group==='all' ? '#f4f4f4' : (sc.total>=0?'#ffcd75':'#e64539');
+    ctx.fillRect(e.x*GS-6, e.y*GS-6, GS+12, GS+12);
+    ctx.fillStyle='#1a1c2c'; ctx.fillRect(e.x*GS-4, e.y*GS-4, GS+8, GS+8);
+    ctx.fillStyle='#f4f4f4'; ctx.font='bold 13px sans-serif';
+    ctx.fillText(e.name + (group==='all'?'':` ${sc.total>0?'+':''}${sc.total}`), e.x*GS-24, e.y*GS-10);
+  }
+  renderLegend();
+  // 侧栏: 当前人群 top 贡献
+  if(group!=='all'){
+    ctx.fillStyle='rgba(26,28,44,.92)'; ctx.fillRect(560,360,310,190);
+    ctx.strokeStyle='#3b5dc9'; ctx.strokeRect(560,360,310,190);
+    ctx.fillStyle='#ffcd75'; ctx.font='bold 13px sans-serif';
+    const e0 = ESTATES[0]; // 南山一品详情
+    const sc = score(e0,group);
+    ctx.fillText(`南山一品 · ${GROUP_NAME[group]} 明细`, 575, 382);
+    ctx.font='11px sans-serif';
+    sc.contrib.slice(0,7).forEach((c,i)=>{
+      ctx.fillStyle = c.v>=0?'#a7f070':'#e64539';
+      ctx.fillText(`${c.v>0?'+':''}${c.v}  ${c.name}`, 575, 402+i*18);
+    });
+    ctx.fillStyle='#ffcd75'; ctx.font='bold 14px sans-serif';
+    ctx.fillText(`合计 ${sc.total>0?'+':''}${sc.total}`, 575, 538);
+  }
+}
+function renderLegend(){
+  document.getElementById('legend').innerHTML = Object.keys(COLORS).map(k=>
+    `<span class="lg" style="background:${COLORS[k]}"></span>${TYPE_NAME[k]}`).join('');
+}
+// 交互
+document.querySelectorAll('#controls button[data-g]').forEach(b=>{
+  b.onclick=()=>{ document.querySelectorAll('#controls button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); group=b.dataset.g; render(); };
+});
+document.getElementById('heat').onclick=function(){ heat=!heat; this.classList.toggle('active',heat); render(); };
+render();
+</script>
+</body>
+</html>
