@@ -356,7 +356,7 @@
     {
       "estate": "weilan-haian",
       "display_name": "卓越·蔚蓝海岸",
-      "rich": true,
+      "rich": false,
       "prompt_version": "v1",
       "model": "glm-5",
       "scored_at": "2026-10-11T19:31:13Z",
@@ -406,7 +406,7 @@
     {
       "estate": "yangguangdai-haibincheng",
       "display_name": "阳光带海滨城",
-      "rich": true,
+      "rich": false,
       "prompt_version": "v1",
       "model": "glm-5",
       "scored_at": "2026-10-11T19:31:29Z",
